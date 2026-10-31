@@ -11,7 +11,7 @@
 # SOLANA_DEPLOY_FLAGS is passed on to every `solana program deploy` (on mainnet, a priority fee:
 # SOLANA_DEPLOY_FLAGS="--with-compute-unit-price 50000 --use-rpc").
 #
-# KEYS_DIR overrides keys/<cluster> (mainnet: KEYS_DIR=~/.config/solana/bordrless-mainnet, where the
+# KEYS_DIR overrides keys/<cluster> (mainnet: KEYS_DIR=~/.config/solana/tiber-mainnet, where the
 # phase 3a keypairs hook_timelock-keypair.json and hook_vault-keypair.json are). BUFFER_DIR, when set,
 # makes each deploy write through the buffer keypair <BUFFER_DIR>/buffer-<program>.json (created
 # with `solana-keygen new --no-bip39-passphrase -o ...` if missing), so an interrupted deploy resumes
@@ -33,7 +33,7 @@ case "$CLUSTER" in
   mainnet) URL="${SOLANA_MAINNET_RPC:?set SOLANA_MAINNET_RPC to a keyed mainnet RPC}" ;;
   *) echo "cluster must be devnet or mainnet" >&2; exit 2 ;;
 esac
-PROGRAMS=(bordrless_token bordrless_swap bordrless_bridge bordrless_launch bordrless_kit tax_hook half_life)
+PROGRAMS=(tiber_token tiber_swap tiber_bridge tiber_launch tiber_kit tax_hook half_life)
 if (($# > 2)); then PROGRAMS=("${@:3}"); fi
 KEYS="${KEYS_DIR:-$ROOT/keys/$CLUSTER}"
 

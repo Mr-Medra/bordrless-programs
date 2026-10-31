@@ -214,9 +214,9 @@ impl Env {
     pub fn new() -> Self {
         let mut svm = LiteSVM::new();
         let programs = [
-            ("bordrless_token", bordrless_token::ID),
-            ("bordrless_swap", bordrless_swap::ID),
-            ("bordrless_bridge", bordrless_bridge::ID),
+            ("tiber_token", tiber_token::ID),
+            ("tiber_swap", tiber_swap::ID),
+            ("tiber_bridge", tiber_bridge::ID),
             ("tax_hook", tax_hook::ID),
             ("hook_tester", hook_tester::ID),
         ];
@@ -245,7 +245,7 @@ impl Env {
         ];
         for (_, id) in programs {
             let authority = if hooks.contains(&id) {
-                bordrless_hook::authority::HOOK_UPGRADE_AUTHORITIES[1]
+                tiber_hook::authority::HOOK_UPGRADE_AUTHORITIES[1]
             } else {
                 env.deployer.pubkey()
             };
@@ -483,8 +483,8 @@ impl Env {
 
     /// Balance of a holding (0 if it does not exist).
     pub fn holding(&self, mint: &Pubkey, owner: &Pubkey) -> u64 {
-        let key = bordrless_token::client::holding_address(mint, owner);
-        self.try_read::<bordrless_token::state::Holding>(&key)
+        let key = tiber_token::client::holding_address(mint, owner);
+        self.try_read::<tiber_token::state::Holding>(&key)
             .map_or(0, |h| h.amount)
     }
 

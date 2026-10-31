@@ -2,11 +2,11 @@
 
 use anchor_lang::prelude::{AccountMeta, Pubkey};
 use anchor_lang::solana_program::instruction::Instruction;
-use bordrless_bridge::client as bridge;
-use bordrless_core::policy;
-use bordrless_swap::client as swap;
-use bordrless_token::client as token;
-use bordrless_token::state::Mint;
+use tiber_bridge::client as bridge;
+use tiber_core::policy;
+use tiber_swap::client as swap;
+use tiber_token::client as token;
+use tiber_token::state::Mint;
 use solana_keypair::Keypair;
 use solana_signer::Signer;
 
@@ -27,11 +27,11 @@ impl World {
         let deployer = env.deployer.insecure_clone();
         let admin = deployer.pubkey();
         let treasury = env.treasury.pubkey();
-        let sol = bridge::wrapped_mint_address(&bordrless_bridge::constants::NATIVE_MINT);
+        let sol = bridge::wrapped_mint_address(&tiber_bridge::constants::NATIVE_MINT);
         let ixs = [
             swap::init_config(
                 admin,
-                bordrless_swap::instructions::ConfigArgs {
+                tiber_swap::instructions::ConfigArgs {
                     admin,
                     protocol_fee_bps: policy::PROTOCOL_FEE_BPS,
                     launch_protocol_share_bps: policy::LAUNCH_PROTOCOL_SHARE_BPS,
@@ -43,7 +43,7 @@ impl World {
             ),
             bridge::init_config(
                 admin,
-                bordrless_bridge::instructions::ConfigArgs {
+                tiber_bridge::instructions::ConfigArgs {
                     admin,
                     paused: false,
                 },
@@ -79,7 +79,7 @@ impl World {
         symbol: &str,
     ) -> Pubkey {
         let mint = Keypair::new();
-        let args = bordrless_token::instructions::CreateMintArgs {
+        let args = tiber_token::instructions::CreateMintArgs {
             decimals,
             name: format!("Test {symbol}"),
             symbol: symbol.to_string(),

@@ -1,11 +1,11 @@
-//! `tax_hook`: an example token hook for the Bordrless Token Standard, and the worked example of a
+//! `tax_hook`: an example token hook for the Tiber Token Standard, and the worked example of a
 //! creator's own hook on a launch (`docs/hooks-v2.md` §5.8).
 //!
 //! `install` sets an existing mint's hook to this program (the mint's hook authority signs),
 //! records the fee and the maximum wallet size, and publishes the extra-accounts registry.
 //! `prepare` does the same for a mint that does not exist yet (a launch's: the launchpad creates
 //! the mint with the hook already named, so the hook's registry at
-//! `["bordrless-hook-accounts", mint]` must be there first), without touching the mint. From then
+//! `["tiber-hook-accounts", mint]` must be there first), without touching the mint. From then
 //! on every transfer pays `fee_bps` to the collector's holding, taken by the token program from
 //! what the destination receives, and a transfer that would leave a wallet above `max_wallet_bps`
 //! of the supply fails. The collector is exempt on both sides. Until the collector's holding of
@@ -15,24 +15,24 @@
 
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::program::invoke;
-use bordrless_core::{fee_amount, BPS};
-use bordrless_hook::{
+use tiber_core::{fee_amount, BPS};
+use tiber_hook::{
     hook_accounts_address, token_flags, write_registry, AccountSource, Delta, ExtraAccount,
     HookAccountList, HookReturn, Seed, TokenHookArgs, TokenOp, HOOK_AUTHORITY_SEED,
     TOKEN_PREFIX_ACCOUNTS,
 };
-use bordrless_token::client as token_client;
-use bordrless_token::state::Mint as TokenMint;
+use tiber_token::client as token_client;
+use tiber_token::state::Mint as TokenMint;
 
 declare_id!("4ZvQ5M27GKv3jmH7ksR6j1r6bnYeeqqckthn1sAHFG9F");
 
 #[cfg(not(feature = "no-entrypoint"))]
 solana_security_txt::security_txt! {
-    name: "Bordrless example tax hook",
-    project_url: "https://github.com/BordrlessDex/bordrless-programs",
-    contacts: "link:https://github.com/BordrlessDex/bordrless-programs/security/advisories/new",
-    policy: "https://github.com/BordrlessDex/bordrless-programs/blob/main/SECURITY.md",
-    source_code: "https://github.com/BordrlessDex/bordrless-programs"
+    name: "Tiber example tax hook",
+    project_url: "https://github.com/Mr-Medra/tiber-programs",
+    contacts: "link:https://github.com/Mr-Medra/tiber-programs/security/advisories/new",
+    policy: "https://github.com/Mr-Medra/tiber-programs/blob/main/SECURITY.md",
+    source_code: "https://github.com/Mr-Medra/tiber-programs"
 }
 
 /// `["tax", mint]`.
@@ -130,7 +130,7 @@ pub mod tax_hook {
     ) -> Result<HookReturn> {
         // The collector's holding exists once the mint does and someone created it; until then a
         // delta to it would be refused by the token program, so no fee is taken.
-        let collector_exists = *ctx.accounts.collector_holding.owner == bordrless_token::ID;
+        let collector_exists = *ctx.accounts.collector_holding.owner == tiber_token::ID;
         let tax = &mut ctx.accounts.tax;
         require!(args.op == TokenOp::Transfer, TaxError::BadParams);
         // The arguments are the token program's for this mint (its signer for this hook signed).
@@ -171,7 +171,7 @@ pub mod tax_hook {
 }
 
 /// The registry for `mint`: the tax config (a PDA of this program on the mint), then the
-/// collector's holding, at `["bordrless-hook-accounts", mint]` under this program.
+/// collector's holding, at `["tiber-hook-accounts", mint]` under this program.
 fn publish_registry<'info>(
     payer: &AccountInfo<'info>,
     registry: &AccountInfo<'info>,
@@ -235,7 +235,7 @@ pub struct Install<'info> {
     #[account(mut)]
     pub registry: UncheckedAccount<'info>,
     /// CHECK: the token program.
-    #[account(address = bordrless_token::ID)]
+    #[account(address = tiber_token::ID)]
     pub token_program: UncheckedAccount<'info>,
     /// CHECK: its event authority.
     pub token_event_authority: UncheckedAccount<'info>,
@@ -313,7 +313,7 @@ mod tests {
             TOKEN_HOOK_SIGNER,
             Pubkey::find_program_address(
                 &[HOOK_AUTHORITY_SEED, crate::ID.as_ref()],
-                &bordrless_token::ID
+                &tiber_token::ID
             )
             .0
         );

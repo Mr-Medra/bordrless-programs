@@ -4,17 +4,17 @@
 //! and registries created at addresses someone already funded.
 
 use anchor_lang::prelude::Pubkey;
-use bordrless_hook::{
+use tiber_hook::{
     hook_accounts_address, token_flags, Delta, HookAccountList, HookReturn, Phase, TokenOp,
     HOOK_AUTHORITY_SEED,
 };
-use bordrless_program_tests::env::Tx;
-use bordrless_program_tests::fixture::World;
-use bordrless_program_tests::hooks::{fixed, tax_install};
-use bordrless_token::client as token;
-use bordrless_token::error::TokenError;
-use bordrless_token::events::{DeltaApplied, HookDataWritten, Transferred};
-use bordrless_token::state::{Holding, Mint};
+use tiber_program_tests::env::Tx;
+use tiber_program_tests::fixture::World;
+use tiber_program_tests::hooks::{fixed, tax_install};
+use tiber_token::client as token;
+use tiber_token::error::TokenError;
+use tiber_token::events::{DeltaApplied, HookDataWritten, Transferred};
+use tiber_token::state::{Holding, Mint};
 use hook_tester::client as tester;
 use hook_tester::{callback, mode, Script};
 use solana_keypair::Keypair;
@@ -760,7 +760,7 @@ fn write_hook_data_only_for_the_mints_hook() {
     let c_kp = Keypair::new();
     let c = w.tester_mint(&c_kp, &alice, token_flags::BEFORE_TRANSFER, SUPPLY, vec![]);
     let b_kp = Keypair::new();
-    let args = bordrless_token::instructions::CreateMintArgs {
+    let args = tiber_token::instructions::CreateMintArgs {
         decimals: 6,
         name: "Other hook".into(),
         symbol: "OTH".into(),

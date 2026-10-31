@@ -20,7 +20,7 @@ ANCHOR_CLI_URL="https://github.com/otter-sec/anchor/releases/download/v$ANCHOR_C
 
 AGAVE_DIR="$HOME/.local/share/solana/install/releases/$AGAVE_VERSION/solana-release"
 TOOLS_DIR="$HOME/.cache/solana/$PLATFORM_TOOLS_VERSION/platform-tools"
-ARCHIVE_DIR="$HOME/.cache/bordrless-toolchain"
+ARCHIVE_DIR="$HOME/.cache/tiber-toolchain"
 
 die() {
   echo "toolchain.sh: $*" >&2

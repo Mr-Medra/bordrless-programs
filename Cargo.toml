@@ -1,4 +1,4 @@
-# Bordrless on-chain workspace: four Anchor 1.2 programs, one example hook, the shared crates and
+# Tiber on-chain workspace: four Anchor 1.2 programs, one example hook, the shared crates and
 # the LiteSVM host tests. Build with scripts/solana/programs.sh (cargo build-sbf, platform-tools
 # v1.57, Agave 4.3.0); every dependency is pinned exactly and Cargo.lock is committed.
 
@@ -11,7 +11,7 @@ version = "0.1.0"
 edition = "2021"
 publish = false
 license = "Apache-2.0"
-repository = "https://github.com/BordrlessDex/bordrless-programs"
+repository = "https://github.com/Mr-Medra/tiber-programs"
 
 [workspace.dependencies]
 anchor-lang = "=1.2.0"

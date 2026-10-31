@@ -1,18 +1,18 @@
 //! The DEX: pools, swaps, liquidity, protocol fees, pausing.
 
 use anchor_lang::prelude::Pubkey;
-use bordrless_core::{fee_amount, initial_lp, policy, swap_out, withdraw_for_lp};
-use bordrless_program_tests::fixture::World;
-use bordrless_program_tests::hooks::SwapSpec;
-use bordrless_swap::client as swap;
-use bordrless_swap::constants::FEE_MODEL_FLAT;
-use bordrless_swap::error::SwapError;
-use bordrless_swap::events::{LiquidityAdded, LiquidityRemoved, PoolCreated, Swapped};
-use bordrless_swap::instructions::{
+use tiber_core::{fee_amount, initial_lp, policy, swap_out, withdraw_for_lp};
+use tiber_program_tests::fixture::World;
+use tiber_program_tests::hooks::SwapSpec;
+use tiber_swap::client as swap;
+use tiber_swap::constants::FEE_MODEL_FLAT;
+use tiber_swap::error::SwapError;
+use tiber_swap::events::{LiquidityAdded, LiquidityRemoved, PoolCreated, Swapped};
+use tiber_swap::instructions::{
     AddLiquidityArgs, ConfigArgs, CreatePoolArgs, RemoveLiquidityArgs, SwapArgs,
 };
-use bordrless_swap::state::Pool;
-use bordrless_token::client as token;
+use tiber_swap::state::Pool;
+use tiber_token::client as token;
 use hook_tester::client as tester;
 use solana_keypair::Keypair;
 use solana_signer::Signer;
@@ -423,7 +423,7 @@ fn pool_lifecycle() {
 fn a_curve_another_hook_creates_pays_the_flat_rate() {
     // The share model is reserved for the twins program (Romulus and Remus).
     assert_eq!(
-        bordrless_swap::constants::LAUNCHPAD_ID.to_string(),
+        tiber_swap::constants::LAUNCHPAD_ID.to_string(),
         "e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89"
     );
     let mut w = World::new();

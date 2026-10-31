@@ -6,7 +6,7 @@
 //!   `["script", key]` holds, for each callback, what to do (answer nothing, return given bytes as
 //!   the return data, or fail) and records the arguments each callback was last told (so a test
 //!   reads, for example, the recipient a swap's hook was told). The registry at
-//!   `["bordrless-hook-accounts", key]` lists the script (writable) and then any accounts the test
+//!   `["tiber-hook-accounts", key]` lists the script (writable) and then any accounts the test
 //!   chose, so a scripted answer can name them as delta recipients. In a pool callback the
 //!   registry's `Seed::Account(1)` is the pool, as in a token callback it is the mint.
 //! - [`hook_tester::write_hook_data_as`] calls the token program's `write_hook_data` signed by any
@@ -34,12 +34,12 @@ use anchor_lang::prelude::*;
 use anchor_lang::solana_program::instruction::Instruction;
 use anchor_lang::solana_program::program::{invoke, invoke_signed, set_return_data};
 use anchor_lang::InstructionData;
-use bordrless_hook::{
+use tiber_hook::{
     hook_accounts_address, write_registry, AccountSource, ExtraAccount, HookAccountList,
     PoolHookArgs, Seed, TokenHookArgs, HOOK_AUTHORITY_SEED,
 };
-use bordrless_swap::instructions::SwapArgs;
-use bordrless_token::client as token_client;
+use tiber_swap::instructions::SwapArgs;
+use tiber_token::client as token_client;
 
 pub mod client;
 
@@ -356,7 +356,7 @@ pub mod hook_tester {
         let signer_ok = ctx.accounts.signer.is_signer
             && ctx.accounts.signer.key()
                 == Pubkey::find_program_address(&[b"quote-cut", crate::ID.as_ref()], &LAUNCH_ID).0;
-        let balance = if ctx.accounts.holding.owner == &bordrless_token::ID {
+        let balance = if ctx.accounts.holding.owner == &tiber_token::ID {
             token_client::read_holding(&ctx.accounts.holding)
                 .map(|h| h.amount)
                 .unwrap_or(0)
@@ -412,12 +412,12 @@ pub mod hook_tester {
     }
 
     /// A router: calls the DEX's `swap(args)` by CPI. The remaining accounts are the swap's
-    /// accounts in its order (as `bordrless_swap::client::swap` lists them, its event authority,
+    /// accounts in its order (as `tiber_swap::client::swap` lists them, its event authority,
     /// program and extras included), passed on with the signer and writable flags they arrived
     /// with, so the trader's signature reaches the DEX.
     pub fn route<'info>(ctx: Context<'info, Route<'info>>, args: SwapArgs) -> Result<()> {
         let ix = Instruction {
-            program_id: bordrless_swap::ID,
+            program_id: tiber_swap::ID,
             accounts: ctx
                 .remaining_accounts
                 .iter()
@@ -427,7 +427,7 @@ pub mod hook_tester {
                     is_writable: info.is_writable,
                 })
                 .collect(),
-            data: bordrless_swap::instruction::Swap { args }.data(),
+            data: tiber_swap::instruction::Swap { args }.data(),
         };
         let mut infos = ctx.remaining_accounts.to_vec();
         infos.push(ctx.accounts.swap_program.to_account_info());
@@ -832,7 +832,7 @@ pub struct PoolCallback<'info> {
 #[derive(Accounts)]
 pub struct Route<'info> {
     /// CHECK: the DEX (address-checked).
-    #[account(address = bordrless_swap::ID @ TesterError::BadParams)]
+    #[account(address = tiber_swap::ID @ TesterError::BadParams)]
     pub swap_program: UncheckedAccount<'info>,
 }
 
@@ -859,7 +859,7 @@ pub struct WriteHookDataAs<'info> {
     #[account(mut)]
     pub holding: UncheckedAccount<'info>,
     /// CHECK: the token program.
-    #[account(address = bordrless_token::ID @ TesterError::BadParams)]
+    #[account(address = tiber_token::ID @ TesterError::BadParams)]
     pub token_program: UncheckedAccount<'info>,
     /// CHECK: the token program's event authority.
     #[account(address = token_client::event_authority() @ TesterError::BadParams)]

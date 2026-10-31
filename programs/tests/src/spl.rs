@@ -7,9 +7,9 @@ use solana_account::Account;
 use crate::env::{Env, SYSTEM_PROGRAM_ID};
 
 /// SPL Token.
-pub const TOKEN_PROGRAM_ID: Pubkey = bordrless_bridge::constants::TOKEN_PROGRAM_ID;
+pub const TOKEN_PROGRAM_ID: Pubkey = tiber_bridge::constants::TOKEN_PROGRAM_ID;
 /// The ATA program.
-pub const ATA_PROGRAM_ID: Pubkey = bordrless_bridge::constants::ATA_PROGRAM_ID;
+pub const ATA_PROGRAM_ID: Pubkey = tiber_bridge::constants::ATA_PROGRAM_ID;
 /// Mint account length.
 pub const MINT_LEN: usize = 82;
 /// Token account length.

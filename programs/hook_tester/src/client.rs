@@ -4,10 +4,10 @@
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::instruction::Instruction;
 use anchor_lang::{system_program, InstructionData};
-use bordrless_hook::{hook_accounts_address, ExtraAccount, HookReturn, HOOK_AUTHORITY_SEED};
-use bordrless_swap::client as swap_client;
-use bordrless_swap::instructions::SwapArgs;
-use bordrless_token::client as token_client;
+use tiber_hook::{hook_accounts_address, ExtraAccount, HookReturn, HOOK_AUTHORITY_SEED};
+use tiber_swap::client as swap_client;
+use tiber_swap::instructions::SwapArgs;
+use tiber_token::client as token_client;
 
 use crate::SCRIPT_SEED;
 
@@ -117,7 +117,7 @@ pub fn write_hook_data_as(
             AccountMeta::new_readonly(signer, false),
             AccountMeta::new_readonly(mint, false),
             AccountMeta::new(holding, false),
-            AccountMeta::new_readonly(bordrless_token::ID, false),
+            AccountMeta::new_readonly(tiber_token::ID, false),
             AccountMeta::new_readonly(token_client::event_authority(), false),
         ],
         data: crate::instruction::WriteHookDataAs { seeds, data }.data(),
@@ -132,7 +132,7 @@ pub fn route(
     extras: Vec<AccountMeta>,
 ) -> Instruction {
     let swap = swap_client::swap(keys, args.clone(), extras);
-    let mut accounts = vec![AccountMeta::new_readonly(bordrless_swap::ID, false)];
+    let mut accounts = vec![AccountMeta::new_readonly(tiber_swap::ID, false)];
     accounts.extend(swap.accounts);
     Instruction {
         program_id: crate::ID,

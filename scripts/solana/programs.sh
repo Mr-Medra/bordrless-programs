@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build, test and inspect the Bordrless programs. Run in WSL (Linux x86_64) after
+# Build, test and inspect the Tiber programs. Run in WSL (Linux x86_64) after
 # scripts/solana/toolchain.sh install.
 #
 #   programs.sh build [program...]      cargo build-sbf into <checkout>/target/deploy (all by default)
@@ -10,12 +10,12 @@
 #   programs.sh check-keys <cluster>    every program keypair must match its declare_id!
 #
 # KEYS_DIR overrides keys/<cluster> for `keys` and `check-keys` (mainnet's program keypairs live in
-# ~/.config/solana/bordrless-mainnet, never in the checkout). Phase 3a added hook_timelock and
+# ~/.config/solana/tiber-mainnet, never in the checkout). Phase 3a added hook_timelock and
 # hook_vault; the strategy fixtures (programs/tests/fixtures/strategies) are test-only and built with
 # `cargo build-sbf --manifest-path programs/tests/fixtures/strategies/<name>/Cargo.toml`.
 #
 # The checkout usually lives on a Windows drive (/mnt/f/...), where cargo is slow; host builds go to
-# CARGO_TARGET_DIR (default ~/.cache/bordrless/target) and only the .so files are written back into
+# CARGO_TARGET_DIR (default ~/.cache/tiber/target) and only the .so files are written back into
 # <checkout>/target/deploy, where the tests look for them.
 #
 # hook_tester is built and tested like the others but is test-only: it is never deployed
@@ -26,10 +26,10 @@ set -euo pipefail
 TOOLS_VERSION="v1.57"
 SBF_ARCH="v3"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)"
-PROGRAMS=(bordrless_token bordrless_swap bordrless_bridge tax_hook hook_tester)
+PROGRAMS=(tiber_token tiber_swap tiber_bridge tax_hook hook_tester)
 TEST_ONLY=(hook_tester)
 DEPLOY_DIR="$ROOT/target/deploy"
-export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$HOME/.cache/bordrless/target}"
+export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$HOME/.cache/tiber/target}"
 AGAVE_BIN="$HOME/.local/share/solana/install/releases/v4.3.0/solana-release/bin"
 export PATH="$AGAVE_BIN:$HOME/bin:$PATH"
 

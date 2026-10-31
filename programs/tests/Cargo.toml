@@ -1,6 +1,6 @@
 [package]
-name = "bordrless-program-tests"
-description = "LiteSVM host tests for the Bordrless programs; they load the .so files built by scripts/solana/programs.sh build."
+name = "tiber-program-tests"
+description = "LiteSVM host tests for the Tiber programs; they load the .so files built by scripts/solana/programs.sh build."
 version.workspace = true
 edition.workspace = true
 publish.workspace = true
@@ -9,11 +9,11 @@ publish.workspace = true
 [dependencies]
 anchor-lang.workspace = true
 litesvm.workspace = true
-bordrless-core = { path = "../../crates/bordrless-core" }
-bordrless-hook = { path = "../../crates/bordrless-hook" }
-bordrless-token = { path = "../bordrless_token", features = ["no-entrypoint"] }
-bordrless-swap = { path = "../bordrless_swap", features = ["no-entrypoint"] }
-bordrless-bridge = { path = "../bordrless_bridge", features = ["no-entrypoint"] }
+tiber-core = { path = "../../crates/tiber-core" }
+tiber-hook = { path = "../../crates/tiber-hook" }
+tiber-token = { path = "../tiber_token", features = ["no-entrypoint"] }
+tiber-swap = { path = "../tiber_swap", features = ["no-entrypoint"] }
+tiber-bridge = { path = "../tiber_bridge", features = ["no-entrypoint"] }
 tax-hook = { path = "../tax_hook", features = ["no-entrypoint"] }
 hook-tester = { path = "../hook_tester", features = ["no-entrypoint"] }
 # sha256 of a program's code (the executable hash), as solana-verify computes it.

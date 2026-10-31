@@ -1,6 +1,6 @@
 [package]
 name = "hook-tester"
-description = "A test-only Bordrless hook, never deployed: a token hook and a pool hook whose answers a test scripts per mint or pool and per callback, which records what each callback was told, can call write_hook_data signed by any PDA of its own, and routes swaps on the DEX by CPI."
+description = "A test-only Tiber hook, never deployed: a token hook and a pool hook whose answers a test scripts per mint or pool and per callback, which records what each callback was told, can call write_hook_data signed by any PDA of its own, and routes swaps on the DEX by CPI."
 version.workspace = true
 edition.workspace = true
 publish.workspace = true
@@ -14,16 +14,16 @@ default = []
 cpi = ["no-entrypoint"]
 no-entrypoint = []
 no-log-ix-name = []
-idl-build = ["anchor-lang/idl-build", "bordrless-hook/idl-build", "bordrless-token/idl-build", "bordrless-swap/idl-build"]
+idl-build = ["anchor-lang/idl-build", "tiber-hook/idl-build", "tiber-token/idl-build", "tiber-swap/idl-build"]
 anchor-debug = []
 custom-heap = []
 custom-panic = []
 
 [dependencies]
 anchor-lang = { workspace = true }
-bordrless-hook = { path = "../../crates/bordrless-hook" }
-bordrless-token = { path = "../bordrless_token", features = ["no-entrypoint"] }
-bordrless-swap = { path = "../bordrless_swap", features = ["no-entrypoint"] }
+tiber-hook = { path = "../../crates/tiber-hook" }
+tiber-token = { path = "../tiber_token", features = ["no-entrypoint"] }
+tiber-swap = { path = "../tiber_swap", features = ["no-entrypoint"] }
 
 [lints]
 workspace = true

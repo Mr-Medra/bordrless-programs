@@ -5,15 +5,15 @@
 use anchor_lang::prelude::{AccountMeta, Pubkey};
 use anchor_lang::solana_program::instruction::Instruction;
 use anchor_lang::InstructionData;
-use bordrless_hook::{
+use tiber_hook::{
     hook_accounts_address, AccountSource, ExtraAccount, HookAccountList, HookReturn,
 };
-use bordrless_swap::client as swap;
-use bordrless_swap::instructions::{CreatePoolArgs, SwapArgs};
-use bordrless_swap::state::Pool;
-use bordrless_token::client as token;
-use bordrless_token::instructions::CreateMintArgs;
-use bordrless_token::state::Mint;
+use tiber_swap::client as swap;
+use tiber_swap::instructions::{CreatePoolArgs, SwapArgs};
+use tiber_swap::state::Pool;
+use tiber_token::client as token;
+use tiber_token::instructions::CreateMintArgs;
+use tiber_token::state::Mint;
 use hook_tester::client as tester;
 use solana_keypair::Keypair;
 use solana_signer::Signer;
@@ -46,7 +46,7 @@ pub fn tax_install(
             AccountMeta::new(tax, false),
             AccountMeta::new_readonly(collector_holding, false),
             AccountMeta::new(hook_accounts_address(&tax_hook::ID, &mint).0, false),
-            AccountMeta::new_readonly(bordrless_token::ID, false),
+            AccountMeta::new_readonly(tiber_token::ID, false),
             AccountMeta::new_readonly(token::event_authority(), false),
             AccountMeta::new_readonly(SYSTEM_PROGRAM_ID, false),
         ],
@@ -92,7 +92,7 @@ impl Env {
 
     /// The hook data of a holding.
     pub fn hook_data(&self, mint: &Pubkey, owner: &Pubkey) -> [u8; 64] {
-        self.read::<bordrless_token::state::Holding>(&token::holding_address(mint, owner))
+        self.read::<tiber_token::state::Holding>(&token::holding_address(mint, owner))
             .hook_data
     }
 
@@ -127,7 +127,7 @@ impl Env {
     }
 
     /// The extra accounts of a pool callback, resolved from the pool hook's registry at
-    /// `["bordrless-hook-accounts", pool]` as a client does (the prefix: the DEX's signer for the
+    /// `["tiber-hook-accounts", pool]` as a client does (the prefix: the DEX's signer for the
     /// hook, the pool, its mints and the actor); empty when the hook keeps no registry for the
     /// pool.
     pub fn pool_hook_extras(

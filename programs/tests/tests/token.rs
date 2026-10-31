@@ -2,13 +2,13 @@
 //! and a token hook taking a fee.
 
 use anchor_lang::prelude::{AccountMeta, Pubkey};
-use bordrless_hook::{hook_accounts_address, HookAccountList};
-use bordrless_program_tests::fixture::World;
-use bordrless_program_tests::hooks::tax_install;
-use bordrless_token::client as token;
-use bordrless_token::error::TokenError;
-use bordrless_token::events::{Burned, DeltaApplied, Minted, Transferred};
-use bordrless_token::state::{AuthorityKind, Holding, Mint};
+use tiber_hook::{hook_accounts_address, HookAccountList};
+use tiber_program_tests::fixture::World;
+use tiber_program_tests::hooks::tax_install;
+use tiber_token::client as token;
+use tiber_token::error::TokenError;
+use tiber_token::events::{Burned, DeltaApplied, Minted, Transferred};
+use tiber_token::state::{AuthorityKind, Holding, Mint};
 use solana_signer::Signer;
 
 const SUPPLY: u64 = 1_000_000_000;

@@ -5,19 +5,19 @@
 //! every callback is told, and a swap routed by CPI.
 
 use anchor_lang::prelude::{AccountMeta, Pubkey};
-use bordrless_core::{fee_amount, policy, swap_out};
-use bordrless_hook::{pool_flags, Delta, ExtraAccount, HookReturn, Phase, PoolHookArgs, PoolOp};
-use bordrless_program_tests::env::Tx;
-use bordrless_program_tests::fixture::World;
-use bordrless_program_tests::hooks::{fixed, NewPool, SwapSpec};
-use bordrless_swap::client as swap;
-use bordrless_swap::error::SwapError;
-use bordrless_swap::events::{DeltaPaid, ProtocolFeesCollected, Swapped};
-use bordrless_swap::instructions::{AddLiquidityArgs, ConfigArgs, RemoveLiquidityArgs};
-use bordrless_swap::state::Pool;
-use bordrless_token::client as token;
-use bordrless_token::error::TokenError;
-use bordrless_token::state::Mint;
+use tiber_core::{fee_amount, policy, swap_out};
+use tiber_hook::{pool_flags, Delta, ExtraAccount, HookReturn, Phase, PoolHookArgs, PoolOp};
+use tiber_program_tests::env::Tx;
+use tiber_program_tests::fixture::World;
+use tiber_program_tests::hooks::{fixed, NewPool, SwapSpec};
+use tiber_swap::client as swap;
+use tiber_swap::error::SwapError;
+use tiber_swap::events::{DeltaPaid, ProtocolFeesCollected, Swapped};
+use tiber_swap::instructions::{AddLiquidityArgs, ConfigArgs, RemoveLiquidityArgs};
+use tiber_swap::state::Pool;
+use tiber_token::client as token;
+use tiber_token::error::TokenError;
+use tiber_token::state::Mint;
 use hook_tester::client as tester;
 use hook_tester::{callback, mode, Script, TesterError};
 use solana_keypair::Keypair;
@@ -88,7 +88,7 @@ fn tax(amount: u64) -> u64 {
 }
 
 /// The fees and the curve of a swap whose input vault received `received`, step by step in the
-/// order of §3.1 (computed here, independently of `bordrless_core::swap_amounts`): the LP fee, the
+/// order of §3.1 (computed here, independently of `tiber_core::swap_amounts`): the LP fee, the
 /// protocol fee (in quote), what the curve gives, and what the output side hands on (the curve's
 /// output, less a sell's protocol fee).
 fn expect(buy: bool, received: u64, lp_fee_bps: u16, p: &Pool) -> (u64, u64, u64, u64) {

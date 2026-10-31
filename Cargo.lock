@@ -719,72 +719,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bordrless-bridge"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-token",
- "solana-security-txt",
-]
-
-[[package]]
-name = "bordrless-core"
-version = "0.1.0"
-
-[[package]]
-name = "bordrless-hook"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
-]
-
-[[package]]
-name = "bordrless-program-tests"
-version = "0.1.0"
-dependencies = [
- "agave-reserved-account-keys",
- "anchor-lang",
- "bordrless-bridge",
- "bordrless-core",
- "bordrless-hook",
- "bordrless-swap",
- "bordrless-token",
- "hook-tester",
- "litesvm",
- "solana-account",
- "solana-hash",
- "solana-keypair",
- "solana-message",
- "solana-rent 4.4.0",
- "solana-sha256-hasher",
- "solana-signature",
- "solana-signer",
- "solana-transaction",
- "tax-hook",
-]
-
-[[package]]
-name = "bordrless-swap"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-bridge",
- "bordrless-core",
- "bordrless-hook",
- "bordrless-token",
- "solana-security-txt",
-]
-
-[[package]]
-name = "bordrless-token"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-hook",
- "solana-security-txt",
-]
-
-[[package]]
 name = "borsh"
 version = "1.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1533,9 +1467,9 @@ name = "hook-tester"
 version = "0.1.0"
 dependencies = [
  "anchor-lang",
- "bordrless-hook",
- "bordrless-swap",
- "bordrless-token",
+ "tiber-hook",
+ "tiber-swap",
+ "tiber-token",
 ]
 
 [[package]]
@@ -4050,10 +3984,10 @@ name = "tax-hook"
 version = "0.1.0"
 dependencies = [
  "anchor-lang",
- "bordrless-core",
- "bordrless-hook",
- "bordrless-token",
  "solana-security-txt",
+ "tiber-core",
+ "tiber-hook",
+ "tiber-token",
 ]
 
 [[package]]
@@ -4103,6 +4037,72 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d050e60b33d41c19108b32cea32164033a9013fe3b46cbd4457559bfbf77afaa"
 dependencies = [
  "num_cpus",
+]
+
+[[package]]
+name = "tiber-bridge"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "solana-security-txt",
+ "tiber-token",
+]
+
+[[package]]
+name = "tiber-core"
+version = "0.1.0"
+
+[[package]]
+name = "tiber-hook"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+]
+
+[[package]]
+name = "tiber-program-tests"
+version = "0.1.0"
+dependencies = [
+ "agave-reserved-account-keys",
+ "anchor-lang",
+ "hook-tester",
+ "litesvm",
+ "solana-account",
+ "solana-hash",
+ "solana-keypair",
+ "solana-message",
+ "solana-rent 4.4.0",
+ "solana-sha256-hasher",
+ "solana-signature",
+ "solana-signer",
+ "solana-transaction",
+ "tax-hook",
+ "tiber-bridge",
+ "tiber-core",
+ "tiber-hook",
+ "tiber-swap",
+ "tiber-token",
+]
+
+[[package]]
+name = "tiber-swap"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "solana-security-txt",
+ "tiber-bridge",
+ "tiber-core",
+ "tiber-hook",
+ "tiber-token",
+]
+
+[[package]]
+name = "tiber-token"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "solana-security-txt",
+ "tiber-hook",
 ]
 
 [[package]]

@@ -1,15 +1,15 @@
 //! The bridge: SPL tokens and SOL in and out of the token standard.
 
 use anchor_lang::prelude::Pubkey;
-use bordrless_bridge::client as bridge;
-use bordrless_bridge::constants::{NATIVE_MINT, TOKEN_PROGRAM_ID};
-use bordrless_bridge::events::{Unwrapped, Wrapped};
-use bordrless_bridge::instructions::RegisterArgs;
-use bordrless_bridge::state::Wrapper;
-use bordrless_program_tests::fixture::World;
-use bordrless_program_tests::spl;
-use bordrless_token::client as token;
-use bordrless_token::state::Mint;
+use tiber_bridge::client as bridge;
+use tiber_bridge::constants::{NATIVE_MINT, TOKEN_PROGRAM_ID};
+use tiber_bridge::events::{Unwrapped, Wrapped};
+use tiber_bridge::instructions::RegisterArgs;
+use tiber_bridge::state::Wrapper;
+use tiber_program_tests::fixture::World;
+use tiber_program_tests::spl;
+use tiber_token::client as token;
+use tiber_token::state::Mint;
 use solana_signer::Signer;
 
 #[test]

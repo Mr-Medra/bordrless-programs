@@ -1,4 +1,4 @@
-# Anchor workspace for the Bordrless programs. The programs are built with `cargo build-sbf`
+# Anchor workspace for the Tiber programs. The programs are built with `cargo build-sbf`
 # (scripts/solana/programs.sh); the Anchor CLI is used for `anchor idl build` only. Tests are Rust
 # LiteSVM tests (programs/tests), so no local validator is started.
 skip_local_validator = true
@@ -14,9 +14,9 @@ skip-lint = false
 
 [workspace]
 members = [
-  "programs/bordrless_token",
-  "programs/bordrless_swap",
-  "programs/bordrless_bridge",
+  "programs/tiber_token",
+  "programs/tiber_swap",
+  "programs/tiber_bridge",
   "programs/tax_hook",
   "programs/hook_tester",
 ]
@@ -25,16 +25,16 @@ members = [
 # twins = e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89 and tithe = 5WNWnM3JTDgDYkA4Mh7quKQXtkdiwF3d7bgc9RuX4KF are reserved
 # for the programs still to be written.
 [programs.localnet]
-bordrless_token = "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
-bordrless_swap = "7nUWnHYtqgLv2sevNxxVBVqZSKd5VZqLBTWbf7un3kSM"
-bordrless_bridge = "4WXBYj7efT8SYhRxacekrp2zgmqoPnyGQifE6obRGLeG"
+tiber_token = "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
+tiber_swap = "7nUWnHYtqgLv2sevNxxVBVqZSKd5VZqLBTWbf7un3kSM"
+tiber_bridge = "4WXBYj7efT8SYhRxacekrp2zgmqoPnyGQifE6obRGLeG"
 tax_hook = "4ZvQ5M27GKv3jmH7ksR6j1r6bnYeeqqckthn1sAHFG9F"
 hook_tester = "GYB8VyYDXx4e5mdxtiUF6L54yi4kvKCpjDUdjFsAJqgk"
 
 [programs.devnet]
-bordrless_token = "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
-bordrless_swap = "7nUWnHYtqgLv2sevNxxVBVqZSKd5VZqLBTWbf7un3kSM"
-bordrless_bridge = "4WXBYj7efT8SYhRxacekrp2zgmqoPnyGQifE6obRGLeG"
+tiber_token = "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
+tiber_swap = "7nUWnHYtqgLv2sevNxxVBVqZSKd5VZqLBTWbf7un3kSM"
+tiber_bridge = "4WXBYj7efT8SYhRxacekrp2zgmqoPnyGQifE6obRGLeG"
 tax_hook = "4ZvQ5M27GKv3jmH7ksR6j1r6bnYeeqqckthn1sAHFG9F"
 
 [provider]
@@ -42,4 +42,4 @@ cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "cargo test -p bordrless-program-tests"
+test = "cargo test -p tiber-program-tests"

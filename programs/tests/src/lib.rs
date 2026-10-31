@@ -1,4 +1,4 @@
-//! LiteSVM harness for the Bordrless programs. The suites in `tests/` load the `.so` files that
+//! LiteSVM harness for the Tiber programs. The suites in `tests/` load the `.so` files that
 //! `scripts/solana/programs.sh build` wrote into `<checkout>/target/deploy` (or `SBF_OUT_DIR`), so
 //! they exercise the bytes that would be deployed.
 
@@ -16,9 +16,9 @@ use std::path::PathBuf;
 
 /// The programs, by crate library name (the stem of each `.so`). `hook_tester` is test-only.
 pub const PROGRAMS: [&str; 5] = [
-    "bordrless_token",
-    "bordrless_swap",
-    "bordrless_bridge",
+    "tiber_token",
+    "tiber_swap",
+    "tiber_bridge",
     "tax_hook",
     "hook_tester",
 ];
