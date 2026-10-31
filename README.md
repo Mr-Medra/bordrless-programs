@@ -8,8 +8,9 @@ The on-chain programs behind Romulus (ROM) and Remus (REM), the Twins of the Tib
 | `tiber_swap` | `7nUWnHYtqgLv2sevNxxVBVqZSKd5VZqLBTWbf7un3kSM` | The exchange: bonding curves and constant-product pools with hooks |
 | `tiber_bridge` | `4WXBYj7efT8SYhRxacekrp2zgmqoPnyGQifE6obRGLeG` | Moves SOL in and out of the token standard, one for one |
 | `tax_hook` | `4ZvQ5M27GKv3jmH7ksR6j1r6bnYeeqqckthn1sAHFG9F` | An example token hook, kept for the tests |
-| `twins` | `e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89` | Reserved: runs both curves and every ROM and REM rule (in progress) |
-| `tithe` | `5WNWnM3JTDgDYkA4Mh7quKQXtkdiwF3d7bgc9RuX4KF` | Reserved: buys and burns each sister token (to be written) |
+| `tiber_twins` | `e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89` | Creates ROM and REM, runs their bonding curves (buy tax, sell burn, anti-sniper fee, 1% buy limit), graduates them with locked liquidity, releases the treasury on its schedule |
+| `tiber_wall` | `2Rz5QMMrD3Heh2LeWZonvKcWtCtqHkbdCS1tfxV4ociH` | The twins' token hook: the 1.5% holding cap, and only ordinary wallets may hold a twin |
+| `tiber_tithe` | `5WNWnM3JTDgDYkA4Mh7quKQXtkdiwF3d7bgc9RuX4KF` | Reserved: buys and burns each sister token (to be written) |
 
 `hook_tester` is a test-only program and is never deployed.
 

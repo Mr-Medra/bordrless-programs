@@ -1,12 +1,10 @@
 //! Ready-made setups: configured programs, bridged SOL, holdings.
 
-use anchor_lang::prelude::{AccountMeta, Pubkey};
-use anchor_lang::solana_program::instruction::Instruction;
+use anchor_lang::prelude::Pubkey;
 use tiber_bridge::client as bridge;
 use tiber_core::policy;
 use tiber_swap::client as swap;
 use tiber_token::client as token;
-use tiber_token::state::Mint;
 use solana_keypair::Keypair;
 use solana_signer::Signer;
 
