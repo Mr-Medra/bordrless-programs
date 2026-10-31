@@ -47,26 +47,13 @@ pub mod tiber_bridge {
         config::process_set_config(ctx, args)
     }
 
-    /// Registers an SPL Token or Token-2022 mint: creates its wrapper, vault and wrapped mint.
-    /// Permissionless.
-    pub fn register(ctx: Context<Register>, args: RegisterArgs) -> Result<()> {
-        wrapper::process_register(ctx, args)
-    }
 
     /// Registers native SOL (the wSOL mint address stands for it). Permissionless, once.
     pub fn register_sol(ctx: Context<RegisterSol>) -> Result<()> {
         wrapper::process_register_sol(ctx)
     }
 
-    /// Moves `amount` of the underlying into the vault and mints what arrived.
-    pub fn wrap(ctx: Context<Wrap>, amount: u64) -> Result<()> {
-        wrap::process_wrap(ctx, amount)
-    }
 
-    /// Burns `amount` of the wrapped mint and pays the underlying out of the vault.
-    pub fn unwrap(ctx: Context<Wrap>, amount: u64) -> Result<()> {
-        wrap::process_unwrap(ctx, amount)
-    }
 
     /// Moves `lamports` into the SOL vault and mints as much wrapped SOL.
     pub fn wrap_sol(ctx: Context<WrapSol>, lamports: u64) -> Result<()> {

@@ -573,3 +573,16 @@ fn nobody_else_can_open_a_pool_with_the_twins_as_hook() {
         .send_paid_by(&[swap::create_pool(&keys, args, vec![])], &lp, &[])
         .expect_code(code(TwinsError::OnlyTwinsCreatePools));
 }
+
+#[test]
+fn a_trade_fits_well_inside_the_compute_budget() {
+    let mut t = Twins::trading();
+    let trader = t.trader(10 * SOL);
+    let buy = t.buy(&trader, t.rom, SOL / 10).cu();
+    let held = t.balance(&t.rom, &trader.pubkey());
+    let sell = t.sell(&trader, t.rom, held / 2).cu();
+    println!("compute: buy {buy}, sell {sell}");
+    // Solana allows 1,400,000 per transaction; the default without asking is 200,000 per
+    // instruction. A wallet's swap should fit the default comfortably.
+    assert!(buy < 200_000 && sell < 200_000, "buy {buy}, sell {sell}");
+}

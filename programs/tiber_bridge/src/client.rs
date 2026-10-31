@@ -6,7 +6,7 @@ use anchor_lang::{system_program, InstructionData};
 use tiber_token::client as token_client;
 
 use crate::constants::*;
-use crate::instructions::{ConfigArgs, RegisterArgs};
+use crate::instructions::ConfigArgs;
 use crate::spl;
 use crate::state::Wrapper;
 
@@ -86,31 +86,6 @@ pub fn set_config(admin: Pubkey, args: ConfigArgs) -> Instruction {
     }
 }
 
-/// `register`.
-pub fn register(
-    payer: Pubkey,
-    underlying: Pubkey,
-    underlying_program: Pubkey,
-    args: RegisterArgs,
-) -> Instruction {
-    Instruction {
-        program_id: crate::ID,
-        accounts: with_events(vec![
-            AccountMeta::new(payer, true),
-            AccountMeta::new(config_address(), false),
-            AccountMeta::new_readonly(underlying, false),
-            AccountMeta::new(wrapper_address(&underlying), false),
-            AccountMeta::new(wrapped_mint_address(&underlying), false),
-            AccountMeta::new(vault_address(&underlying, &underlying_program), false),
-            AccountMeta::new_readonly(underlying_program, false),
-            AccountMeta::new_readonly(ATA_PROGRAM_ID, false),
-            AccountMeta::new_readonly(tiber_token::ID, false),
-            AccountMeta::new_readonly(token_client::event_authority(), false),
-            AccountMeta::new_readonly(system_program::ID, false),
-        ]),
-        data: crate::instruction::Register { args }.data(),
-    }
-}
 
 /// `register_sol`.
 pub fn register_sol(payer: Pubkey) -> Instruction {
@@ -130,57 +105,8 @@ pub fn register_sol(payer: Pubkey) -> Instruction {
     }
 }
 
-fn wrap_accounts(
-    user: Pubkey,
-    underlying: Pubkey,
-    underlying_program: Pubkey,
-    user_underlying: Pubkey,
-) -> Vec<AccountMeta> {
-    let wrapped = wrapped_mint_address(&underlying);
-    let mut accounts = vec![
-        AccountMeta::new_readonly(user, true),
-        AccountMeta::new_readonly(config_address(), false),
-        AccountMeta::new(wrapper_address(&underlying), false),
-        AccountMeta::new_readonly(underlying, false),
-        AccountMeta::new(user_underlying, false),
-        AccountMeta::new(vault_address(&underlying, &underlying_program), false),
-        AccountMeta::new(wrapped, false),
-        AccountMeta::new(token_client::holding_address(&wrapped, &user), false),
-        AccountMeta::new_readonly(underlying_program, false),
-    ];
-    accounts.extend(token_fixed());
-    with_events(accounts)
-}
 
-/// `wrap`.
-pub fn wrap(
-    user: Pubkey,
-    underlying: Pubkey,
-    underlying_program: Pubkey,
-    user_underlying: Pubkey,
-    amount: u64,
-) -> Instruction {
-    Instruction {
-        program_id: crate::ID,
-        accounts: wrap_accounts(user, underlying, underlying_program, user_underlying),
-        data: crate::instruction::Wrap { amount }.data(),
-    }
-}
 
-/// `unwrap`.
-pub fn unwrap(
-    user: Pubkey,
-    underlying: Pubkey,
-    underlying_program: Pubkey,
-    user_underlying: Pubkey,
-    amount: u64,
-) -> Instruction {
-    Instruction {
-        program_id: crate::ID,
-        accounts: wrap_accounts(user, underlying, underlying_program, user_underlying),
-        data: crate::instruction::Unwrap { amount }.data(),
-    }
-}
 
 fn wrap_sol_accounts(user: Pubkey) -> Vec<AccountMeta> {
     let wrapped = wrapped_mint_address(&NATIVE_MINT);

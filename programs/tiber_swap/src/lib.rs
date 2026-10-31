@@ -74,15 +74,6 @@ pub mod tiber_swap {
         pool::process_create_pool(ctx, args, false)
     }
 
-    /// Creates a native-SOL pool (quoted in bridged SOL by its mint and seeds, its quote held as
-    /// lamports on the pool account): as `create_pool`, with the quote deposit paid in SOL by the
-    /// payer (`crate::native`).
-    pub fn create_native_pool<'info>(
-        ctx: Context<'info, CreatePool<'info>>,
-        args: CreatePoolArgs,
-    ) -> Result<()> {
-        pool::process_create_pool(ctx, args, true)
-    }
 
     /// The pool's hook turns a curve pool into an ordinary one: reserves synced to the vaults, no
     /// virtual offsets, the first LP minted to a recipient.
@@ -100,11 +91,6 @@ pub mod tiber_swap {
         pool::process_collect_protocol_fees(ctx, quote_hook_accounts)
     }
 
-    /// Anyone: unwraps the accrued protocol fees of a pool quoted in bridged SOL and pays them to
-    /// the fee collector the config names, as SOL. Nothing else can receive them.
-    pub fn collect_protocol_fees_sol(ctx: Context<CollectProtocolFeesSol>) -> Result<()> {
-        pool::process_collect_protocol_fees_sol(ctx)
-    }
 
     /// Adds liquidity at the pool's ratio and mints LP.
     pub fn add_liquidity<'info>(
@@ -127,71 +113,12 @@ pub mod tiber_swap {
         swap::process_swap(ctx, args)
     }
 
-    /// Swaps on a native-SOL pool with the quote as SOL: the trader's wallet pays a buy, the pool's
-    /// lamports pay a sell, and the quote-side cuts are paid in SOL (wrapped through the bridge for
-    /// a holding of bridged SOL).
-    pub fn swap_v2<'info>(ctx: Context<'info, SwapV2<'info>>, args: SwapArgs) -> Result<()> {
-        swap::process_swap_v2(ctx, args)
-    }
 
-    /// Admin: turns a pool quoted in bridged SOL into a native one (its quote unwrapped onto the
-    /// pool account, `buffer_target` of it kept in the quote vault). Idempotent. A pool whose hook
-    /// is neither absent nor the launchpad needs `allow_foreign_hook`; the excluded pool never.
-    pub fn migrate_pool_to_native(
-        ctx: Context<QuoteForm>,
-        buffer_target: u64,
-        allow_foreign_hook: bool,
-    ) -> Result<()> {
-        pool::process_migrate_pool_to_native(ctx, buffer_target, allow_foreign_hook)
-    }
 
-    /// Admin: turns a native pool back into a bridged one (its quote lamports wrapped into the
-    /// quote vault). Idempotent.
-    pub fn revert_pool_to_bridged(ctx: Context<QuoteForm>) -> Result<()> {
-        pool::process_revert_pool_to_bridged(ctx)
-    }
 
-    /// Anyone: moves a native pool's buffer (bridged SOL in its quote vault) toward its target.
-    pub fn rebalance_pool(ctx: Context<QuoteForm>) -> Result<()> {
-        pool::process_rebalance_pool(ctx)
-    }
 
-    /// Anyone: wraps all of a native pool's lamport quote into its buffer, for the rest of the
-    /// transaction only: a later instruction of the same transaction must be `rebalance_pool` on
-    /// the same pool (the instructions sysvar is the first remaining account). Its books and its
-    /// value do not change; it lets a program that checks the quote vault against the books (a
-    /// Workshop script written for bridged pools) run on a native pool.
-    pub fn buffer_all<'info>(ctx: Context<'info, QuoteForm<'info>>) -> Result<()> {
-        pool::process_buffer_all(ctx)
-    }
 
-    /// Admin: sets a native pool's buffer target.
-    pub fn set_buffer_target(ctx: Context<QuoteForm>, buffer_target: u64) -> Result<()> {
-        pool::process_set_buffer_target(ctx, buffer_target)
-    }
 
-    /// A hook creates a curve pool quoted in a real SPL Token or Token-2022 mint (quote kind 2,
-    /// `docs/token-quotes.md` §2.1): base deposited, no quote, the quote mint held to the extension
-    /// policy, its quote vault the pool's associated token account. No LP mint: such a pool never
-    /// finalizes or takes liquidity. The remaining accounts are the base mint's token-hook slice.
-    pub fn create_spl_pool<'info>(
-        ctx: Context<'info, CreateSplPool<'info>>,
-        args: CreatePoolArgs,
-    ) -> Result<()> {
-        pool::process_create_spl_pool(ctx, args)
-    }
 
-    /// A swap on a pool quoted in an SPL token: as `swap`, the quote moving by `transfer_checked`
-    /// through its program (the trader signs a buy, the pool a sell) and the quote-side cuts paid
-    /// to token accounts of the quote mint.
-    pub fn swap_spl<'info>(ctx: Context<'info, SwapSpl<'info>>, args: SwapArgs) -> Result<()> {
-        swap::process_swap_spl(ctx, args)
-    }
 
-    /// Anyone: moves the accrued protocol fees of a pool quoted in an SPL token to the fee
-    /// collector's associated token account of the quote mint (created if needed, the payer paying
-    /// its rent). Nothing else can receive them.
-    pub fn collect_protocol_fees_spl(ctx: Context<CollectProtocolFeesSpl>) -> Result<()> {
-        pool::process_collect_protocol_fees_spl(ctx)
-    }
 }

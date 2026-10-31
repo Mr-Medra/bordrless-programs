@@ -34,6 +34,8 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(target_os, values("solana"
 
 # Anchor's recommended release profile for on-chain programs. overflow-checks is load-bearing.
 [profile.release]
+# Size first: deploy rent is paid per byte.
+opt-level = "z"
 overflow-checks = true
 lto = "fat"
 codegen-units = 1
