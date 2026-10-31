@@ -6,8 +6,8 @@ pub const CONFIG_SEED: &[u8] = b"config";
 pub const POOL_SEED: &[u8] = b"pool";
 /// `["lp", pool]`.
 pub const LP_SEED: &[u8] = b"lp";
-/// Bump of `["config"]` (`2XLvgczuVACmvvjfRLLAcLwMzFHutbAAro61zZKP8fsx`).
-pub const CONFIG_BUMP: u8 = 254;
+/// Bump of `["config"]` (`2zKWppHPuF8ZtWSe7g9R1AqqNdajz2WnnZiV4SEYEuUW`).
+pub const CONFIG_BUMP: u8 = 255;
 /// Layout version.
 pub const VERSION: u8 = 1;
 /// Largest LP fee a pool or a hook may set.
@@ -28,7 +28,7 @@ pub const FEE_MODEL_SHARE: u8 = 1;
 /// The test suite checks it equals `bordrless_launch::ID` (the DEX cannot depend on the launch
 /// program, which depends on the DEX).
 pub const LAUNCHPAD_ID: anchor_lang::prelude::Pubkey =
-    anchor_lang::prelude::Pubkey::from_str_const("1jcBymHxBjniZDhNPy51Vgm5Nz7pLUdxa9UBHc4TavC");
+    anchor_lang::prelude::Pubkey::from_str_const("e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89");
 /// Discriminator length.
 pub const DISCRIMINATOR_LEN: usize = 8;
 /// The launchpad's launch seed (`bordrless_launch::constants::LAUNCH_SEED`; the test suite checks
@@ -42,12 +42,12 @@ pub const LAUNCH_CUSTOM_HOOK_OFFSET: usize = 498;
 /// The one bridged-SOL pool that must never go native (its hook, `AwAvBe…`, is a third party's;
 /// audit N-9). The hook rule of `migrate_pool_to_native` already refuses it; named as well.
 pub const EXCLUDED_POOL: anchor_lang::prelude::Pubkey =
-    anchor_lang::prelude::Pubkey::from_str_const("4PvPnTByfrnhA1nNmsaou7GrdQsqJNrkinqLHp2JHFX7");
+    anchor_lang::prelude::Pubkey::from_str_const("11111111111111111111111111111111");
 
 /// Name of every LP mint.
-pub const LP_NAME: &str = "Bordrless LP";
+pub const LP_NAME: &str = "Twins of the Tiber LP";
 /// Symbol of every LP mint.
-pub const LP_SYMBOL: &str = "BLP";
+pub const LP_SYMBOL: &str = "TTLP";
 /// The upgradeable loader.
 pub const BPF_LOADER_UPGRADEABLE_ID: anchor_lang::prelude::Pubkey =
     anchor_lang::prelude::Pubkey::from_str_const("BPFLoaderUpgradeab1e11111111111111111111111");
@@ -55,10 +55,10 @@ pub const BPF_LOADER_UPGRADEABLE_ID: anchor_lang::prelude::Pubkey =
 /// The bridge (`bordrless_bridge`): `collect_protocol_fees_sol` calls its `unwrap_sol`. Constants
 /// rather than a crate dependency; the unit tests check each against the bridge's own.
 pub const BRIDGE_ID: anchor_lang::prelude::Pubkey =
-    anchor_lang::prelude::Pubkey::from_str_const("CtLkuFVitoXHTa86Hfp8KmfSDfqJaMYFWr6EGmQVsKb7");
+    anchor_lang::prelude::Pubkey::from_str_const("4WXBYj7efT8SYhRxacekrp2zgmqoPnyGQifE6obRGLeG");
 /// Bridged SOL: the bridge's `["wrapped", NATIVE_MINT]`, the quote of every launch pool.
 pub const BRIDGED_SOL_MINT: anchor_lang::prelude::Pubkey =
-    anchor_lang::prelude::Pubkey::from_str_const("A49oVhX22ExMwTEtFC6Y8nhBdZ4LJDGhdXLDn4c2f59i");
+    anchor_lang::prelude::Pubkey::from_str_const("DEGQuyvqrovpU96X43pzimVTBQGnb53eAED5ykX21qwV");
 /// The bridge's `unwrap_sol` instruction discriminator.
 pub const UNWRAP_SOL_DISCRIMINATOR: [u8; 8] = [99, 40, 14, 105, 45, 107, 172, 201];
 /// The bridge's `wrap_sol` instruction discriminator.

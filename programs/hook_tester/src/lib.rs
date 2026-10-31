@@ -43,7 +43,7 @@ use bordrless_token::client as token_client;
 
 pub mod client;
 
-declare_id!("9xrQXAxhbRRCVfE5E7DFnxYHESmy4hrtcKpSvZUNmiWM");
+declare_id!("GYB8VyYDXx4e5mdxtiUF6L54yi4kvKCpjDUdjFsAJqgk");
 
 /// `["script", key]`.
 pub const SCRIPT_SEED: &[u8] = b"script";
@@ -54,17 +54,17 @@ pub const MAX_ANSWER_LEN: usize = 512;
 /// The token program's signer of every callback to this program: `["hook-authority",
 /// hook_tester]` under the token program.
 pub const TOKEN_HOOK_SIGNER: Pubkey =
-    Pubkey::from_str_const("DQk365tAAtrmejMvdfpVgfxzJTBtxCdfmxEPkoaEZEoG");
+    Pubkey::from_str_const("3YPE4S3ZotsvEAbwV8zycPNJ2r7fdP7e2t5kU4ybgyvo");
 /// The DEX's signer of every pool callback to this program: `["hook-authority", hook_tester]`
 /// under the DEX.
 pub const DEX_HOOK_SIGNER: Pubkey =
-    Pubkey::from_str_const("8KDaHfzhTVX3mv8CsuBmtybBz8QrhUW8q8oZH1CYdVoF");
+    Pubkey::from_str_const("FhzxKfHZeetMD9Z2Umj9ath93M8AbcT8QYBsqxTe8ZiR");
 /// Most extra accounts a test may add to the registry after the script.
 pub const MAX_EXTRAS: usize = 16;
 
 /// The launchpad, whose `["quote-cut", hook]` PDA signs a hook's `quote_cut` (a constant: this
 /// test program does not depend on the launchpad; the tests check the two agree).
-pub const LAUNCH_ID: Pubkey = Pubkey::from_str_const("1jcBymHxBjniZDhNPy51Vgm5Nz7pLUdxa9UBHc4TavC");
+pub const LAUNCH_ID: Pubkey = Pubkey::from_str_const("e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89");
 /// `["state", mint]`: the quote-cut script of a mint, the account the launchpad passes writable
 /// to `quote_cut` (`docs/quote-cut.md`).
 pub const QUOTE_STATE_SEED: &[u8] = b"state";

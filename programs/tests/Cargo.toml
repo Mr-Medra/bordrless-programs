@@ -11,37 +11,13 @@ anchor-lang.workspace = true
 litesvm.workspace = true
 bordrless-core = { path = "../../crates/bordrless-core" }
 bordrless-hook = { path = "../../crates/bordrless-hook" }
-bordrless-game = { path = "../../crates/bordrless-game" }
 bordrless-token = { path = "../bordrless_token", features = ["no-entrypoint"] }
 bordrless-swap = { path = "../bordrless_swap", features = ["no-entrypoint"] }
 bordrless-bridge = { path = "../bordrless_bridge", features = ["no-entrypoint"] }
-bordrless-launch = { path = "../bordrless_launch", features = ["no-entrypoint"] }
-bordrless-kit = { path = "../bordrless_kit", features = ["no-entrypoint"] }
 tax-hook = { path = "../tax_hook", features = ["no-entrypoint"] }
-half-life = { path = "../half_life", features = ["no-entrypoint"] }
-lottery-hook = { path = "../lottery_hook", features = ["no-entrypoint"] }
-bordrless-companion = { path = "../bordrless_companion", features = ["no-entrypoint"] }
 hook-tester = { path = "../hook_tester", features = ["no-entrypoint"] }
-hook-timelock = { path = "../hook_timelock", features = ["no-entrypoint"] }
-hook-vault = { path = "../hook_vault", features = ["no-entrypoint"] }
-bordrless-router = { path = "../bordrless_router", features = ["no-entrypoint"] }
 # sha256 of a program's code (the executable hash), as solana-verify computes it.
 solana-sha256-hasher = { version = "=3.1.0", features = ["sha2"] }
-# Studio's game starters (test-only; fixtures/starters): their instructions, built from their crates.
-studio-jackpot = { path = "fixtures/starters/jackpot", features = ["no-entrypoint"] }
-studio-streak = { path = "fixtures/starters/streak", features = ["no-entrypoint"] }
-# Phase 3a: the strategy interface and a test-only strategy with scripted answers.
-bordrless-strategy = { path = "../../crates/bordrless-strategy" }
-strategy-tester = { path = "fixtures/strategies/tester", features = ["no-entrypoint"] }
-strategy-pro-rata = { path = "fixtures/strategies/pro_rata", features = ["no-entrypoint"] }
-# Script companions (2026-10-12): a test-only script with scripted steps.
-script-example = { path = "fixtures/scripts/example", features = ["no-entrypoint"] }
-# Loss cover (2026-10-12): the hook and the script, and a test-only script with scripted payout
-# answers (the companion's payout primitive).
-loss-cover-hook = { path = "../loss_cover_hook", features = ["no-entrypoint"] }
-loss-cover-script = { path = "../loss_cover_script", features = ["no-entrypoint"] }
-script-payouts = { path = "fixtures/scripts/payouts", features = ["no-entrypoint"] }
-# The runtime's reserved keys, which the companion's jackpot must know (`RESERVED_KEYS`).
 agave-reserved-account-keys = "=4.3.0"
 solana-account = "=4.7.0"
 solana-hash.workspace = true

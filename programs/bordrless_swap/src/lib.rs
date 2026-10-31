@@ -39,7 +39,7 @@ pub mod token;
 
 pub use instructions::*;
 
-declare_id!("GyzKSnnEu2uN5bBRecE4XYY2enbfR2D2MtxnbJPGy7hk");
+declare_id!("7nUWnHYtqgLv2sevNxxVBVqZSKd5VZqLBTWbf7un3kSM");
 
 #[cfg(not(feature = "no-entrypoint"))]
 solana_security_txt::security_txt! {

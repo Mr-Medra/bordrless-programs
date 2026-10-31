@@ -728,34 +728,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "bordrless-companion"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-bridge",
- "bordrless-core",
- "bordrless-game",
- "bordrless-hook",
- "bordrless-kit",
- "bordrless-launch",
- "bordrless-strategy",
- "bordrless-swap",
- "bordrless-token",
- "solana-security-txt",
- "solana-sha256-hasher",
-]
-
-[[package]]
 name = "bordrless-core"
 version = "0.1.0"
-
-[[package]]
-name = "bordrless-game"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "solana-sha256-hasher",
-]
 
 [[package]]
 name = "bordrless-hook"
@@ -765,55 +739,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "bordrless-kit"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-hook",
- "bordrless-token",
- "solana-security-txt",
-]
-
-[[package]]
-name = "bordrless-launch"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-core",
- "bordrless-hook",
- "bordrless-kit",
- "bordrless-swap",
- "bordrless-token",
- "solana-security-txt",
-]
-
-[[package]]
 name = "bordrless-program-tests"
 version = "0.1.0"
 dependencies = [
  "agave-reserved-account-keys",
  "anchor-lang",
  "bordrless-bridge",
- "bordrless-companion",
  "bordrless-core",
- "bordrless-game",
  "bordrless-hook",
- "bordrless-kit",
- "bordrless-launch",
- "bordrless-router",
- "bordrless-strategy",
  "bordrless-swap",
  "bordrless-token",
- "half-life",
  "hook-tester",
- "hook-timelock",
- "hook-vault",
  "litesvm",
- "loss-cover-hook",
- "loss-cover-script",
- "lottery-hook",
- "script-example",
- "script-payouts",
  "solana-account",
  "solana-hash",
  "solana-keypair",
@@ -823,30 +760,7 @@ dependencies = [
  "solana-signature",
  "solana-signer",
  "solana-transaction",
- "strategy-pro-rata",
- "strategy-tester",
- "studio-jackpot",
- "studio-streak",
  "tax-hook",
-]
-
-[[package]]
-name = "bordrless-router"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-swap",
- "bordrless-token",
- "solana-security-txt",
-]
-
-[[package]]
-name = "bordrless-strategy"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-game",
- "bordrless-hook",
 ]
 
 [[package]]
@@ -1547,17 +1461,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "half-life"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-hook",
- "bordrless-launch",
- "bordrless-token",
- "solana-security-txt",
-]
-
-[[package]]
 name = "hash32"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1633,31 +1536,6 @@ dependencies = [
  "bordrless-hook",
  "bordrless-swap",
  "bordrless-token",
-]
-
-[[package]]
-name = "hook-timelock"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-hook",
- "solana-security-txt",
- "solana-sha256-hasher",
-]
-
-[[package]]
-name = "hook-vault"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-bridge",
- "bordrless-core",
- "bordrless-hook",
- "bordrless-kit",
- "bordrless-launch",
- "bordrless-swap",
- "bordrless-token",
- "solana-security-txt",
 ]
 
 [[package]]
@@ -1926,45 +1804,6 @@ name = "log"
 version = "0.4.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f9f8bd3e56ce4dfc153cf470fffbfa98c7620958b312ca5c3a4b8d5181fd13c6"
-
-[[package]]
-name = "loss-cover-hook"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-game",
- "bordrless-hook",
- "bordrless-launch",
- "bordrless-strategy",
- "bordrless-token",
- "solana-security-txt",
-]
-
-[[package]]
-name = "loss-cover-script"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-companion",
- "bordrless-game",
- "bordrless-launch",
- "bordrless-strategy",
- "bordrless-token",
- "loss-cover-hook",
- "solana-security-txt",
-]
-
-[[package]]
-name = "lottery-hook"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-game",
- "bordrless-hook",
- "bordrless-launch",
- "bordrless-token",
- "solana-security-txt",
-]
 
 [[package]]
 name = "memchr"
@@ -2354,25 +2193,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 
 [[package]]
-name = "script-example"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-launch",
- "bordrless-token",
-]
-
-[[package]]
-name = "script-payouts"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-hook",
- "bordrless-launch",
- "bordrless-token",
-]
-
-[[package]]
 name = "sec1"
 version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2447,9 +2267,9 @@ dependencies = [
 
 [[package]]
 name = "serde_spanned"
-version = "1.1.1"
+version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6662b5879511e06e8999a8a235d848113e942c9124f211511b16466ee2995f26"
+checksum = "4e7523beb55eece201a2356bee0bbca0d1ab466c14c07703b2e0ee6d42cb0c2c"
 dependencies = [
  "serde_core",
 ]
@@ -4175,45 +3995,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "strategy-pro-rata"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-hook",
- "bordrless-strategy",
-]
-
-[[package]]
-name = "strategy-tester"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-strategy",
-]
-
-[[package]]
 name = "strsim"
 version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
-
-[[package]]
-name = "studio-jackpot"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-game",
- "bordrless-hook",
-]
-
-[[package]]
-name = "studio-streak"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bordrless-game",
- "bordrless-hook",
-]
 
 [[package]]
 name = "subtle"
@@ -4382,9 +4167,9 @@ dependencies = [
 
 [[package]]
 name = "toml_writer"
-version = "1.1.2+spec-1.1.0"
+version = "1.1.3+spec-1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7d56353a2a665ad0f41a421187180aab746c8c325620617ad883a99a1cbe66d2"
+checksum = "06bdbd8cfc056b8d2e2e85f29b56a3bdbecb527cef81eb39e3e7b98af4652770"
 
 [[package]]
 name = "typenum"

@@ -421,10 +421,10 @@ fn pool_lifecycle() {
 /// open a pool whose hook cuts nothing and so pays nothing.
 #[test]
 fn a_curve_another_hook_creates_pays_the_flat_rate() {
-    // The DEX names the launchpad by id (it cannot depend on the launch program).
+    // The share model is reserved for the twins program (Romulus and Remus).
     assert_eq!(
-        bordrless_swap::constants::LAUNCHPAD_ID,
-        bordrless_launch::ID
+        bordrless_swap::constants::LAUNCHPAD_ID.to_string(),
+        "e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89"
     );
     let mut w = World::new();
     let lp = w.env.funded(50_000_000_000);
@@ -576,17 +576,9 @@ fn curves_need_a_hook_that_creates_them() {
     };
     let mut args = pool_args(A_DEPOSIT, 0);
     args.virtual_quote = 1_000_000_000;
-    args.hook_program = bordrless_launch::ID;
-    args.hook_flags = bordrless_launch::constants::LAUNCH_HOOK_FLAGS;
-    w.env
-        .send_paid_by(&[swap::create_pool(&keys, args.clone(), vec![])], &lp, &[])
-        .expect_code(u32::from(SwapError::CurveNeedsHook));
-    // An ordinary pool with the launchpad as its hook is refused by the launchpad itself.
-    args.virtual_quote = 0;
-    args.quote_amount = B_DEPOSIT;
+    args.hook_program = tax_hook::ID;
+    args.hook_flags = 0;
     w.env
         .send_paid_by(&[swap::create_pool(&keys, args, vec![])], &lp, &[])
-        .expect_code(u32::from(
-            bordrless_launch::error::LaunchError::OnlyLaunchpadCreatesPools,
-        ));
+        .expect_code(u32::from(SwapError::CurveNeedsHook));
 }

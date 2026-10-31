@@ -10,10 +10,10 @@ pub const WRAPPER_SEED: &[u8] = b"wrapper";
 pub const WRAPPED_SEED: &[u8] = b"wrapped";
 /// `["sol-vault"]`: the lamports behind wrapped SOL.
 pub const SOL_VAULT_SEED: &[u8] = b"sol-vault";
-/// Bump of `["config"]` (`Dwf4C8tTMYwicp8cU5MYcTtMQVVJTN7W3LcXCQ1UEhMs`).
-pub const CONFIG_BUMP: u8 = 250;
-/// Bump of `["sol-vault"]` (`EAcZR2i8A6BbnKRdWuyMVDTuiNkD6qc4RkFpxUYJ9Qba`).
-pub const SOL_VAULT_BUMP: u8 = 255;
+/// Bump of `["config"]` (`BZfZGCdXEAfbwgmgDxtgLiccDTucZr8DYkozhnCXj2zM`).
+pub const CONFIG_BUMP: u8 = 255;
+/// Bump of `["sol-vault"]` (`FxceuseEjYEPEvcR8CnW3sjvaeR7ea4pj2R7uoXQkHYG`).
+pub const SOL_VAULT_BUMP: u8 = 254;
 /// Layout version.
 pub const VERSION: u8 = 1;
 /// Discriminator length.

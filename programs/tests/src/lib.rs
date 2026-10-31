@@ -2,21 +2,12 @@
 //! `scripts/solana/programs.sh build` wrote into `<checkout>/target/deploy` (or `SBF_OUT_DIR`), so
 //! they exercise the bytes that would be deployed.
 
-pub mod attest;
 pub mod env;
 pub mod events;
 pub mod fixture;
 pub mod hooks;
 pub mod json;
-pub mod risk;
-pub mod kit;
-pub mod launch;
-pub mod native;
-pub mod orao;
-pub mod quotes;
 pub mod spl;
-pub mod timelock;
-pub mod vault;
 
 pub use env::*;
 pub use events::*;
@@ -24,15 +15,11 @@ pub use events::*;
 use std::path::PathBuf;
 
 /// The programs, by crate library name (the stem of each `.so`). `hook_tester` is test-only.
-pub const PROGRAMS: [&str; 9] = [
+pub const PROGRAMS: [&str; 5] = [
     "bordrless_token",
     "bordrless_swap",
     "bordrless_bridge",
-    "bordrless_launch",
-    "bordrless_kit",
     "tax_hook",
-    "half_life",
-    "lottery_hook",
     "hook_tester",
 ];
 

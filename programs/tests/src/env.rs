@@ -217,18 +217,8 @@ impl Env {
             ("bordrless_token", bordrless_token::ID),
             ("bordrless_swap", bordrless_swap::ID),
             ("bordrless_bridge", bordrless_bridge::ID),
-            ("bordrless_launch", bordrless_launch::ID),
-            ("bordrless_kit", bordrless_kit::ID),
             ("tax_hook", tax_hook::ID),
-            ("half_life", half_life::ID),
-            ("lottery_hook", lottery_hook::ID),
             ("hook_tester", hook_tester::ID),
-            ("bordrless_companion", bordrless_companion::ID),
-            ("hook_timelock", hook_timelock::ID),
-            ("hook_vault", hook_vault::ID),
-            ("loss_cover_hook", loss_cover_hook::ID),
-            ("loss_cover_script", loss_cover_script::ID),
-            ("bordrless_router", bordrless_router::ID),
         ];
         for (name, id) in programs {
             svm.add_program(id, bytes_of(name))
@@ -251,14 +241,11 @@ impl Env {
         // protocol's own upgrade authority, one of those `create_config` allows for a custom hook.
         let hooks = [
             tax_hook::ID,
-            half_life::ID,
-            lottery_hook::ID,
-            loss_cover_hook::ID,
             hook_tester::ID,
         ];
         for (_, id) in programs {
             let authority = if hooks.contains(&id) {
-                bordrless_launch::constants::HOOK_UPGRADE_AUTHORITIES[1]
+                bordrless_hook::authority::HOOK_UPGRADE_AUTHORITIES[1]
             } else {
                 env.deployer.pubkey()
             };

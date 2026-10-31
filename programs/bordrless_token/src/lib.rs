@@ -31,7 +31,7 @@ pub mod state;
 pub use instructions::*;
 pub use state::AuthorityKind;
 
-declare_id!("2XoEWp8cF3kRXg74eVwPAyTFhVCAztn3V88komxAvr22");
+declare_id!("CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e");
 
 #[cfg(not(feature = "no-entrypoint"))]
 solana_security_txt::security_txt! {

@@ -35,10 +35,10 @@ pub const LOADER_V4_ID: Pubkey =
 
 /// Bordrless Studio's upgrade key: every hook Studio deploys "managed" is upgradeable by it.
 pub const STUDIO_UPGRADE_AUTHORITY: Pubkey =
-    Pubkey::from_str_const("CS1NRyXNCPxEUP4CRoa26cHQSeSJCxXh5SPijwFhDW6W");
+    Pubkey::from_str_const("64TR6NsC7i7kCQ3YSmkeQiakLcgVDWXnw3YbZ1cCjFPL");
 /// The protocol's own upgrade authority (Half-Life, tax_hook, lottery_hook).
 pub const PROTOCOL_UPGRADE_AUTHORITY: Pubkey =
-    Pubkey::from_str_const("5xsibKwtiN6ruxsYrEyWVpV3KcwuzSPbQd1n28a7spEd");
+    Pubkey::from_str_const("64TR6NsC7i7kCQ3YSmkeQiakLcgVDWXnw3YbZ1cCjFPL");
 /// The keys a program may be upgradeable by and still count as "Bordrless-managed"
 /// ([`AuthorityClass::Protocol`]). The launchpad's `HOOK_UPGRADE_AUTHORITIES` is this list.
 pub const HOOK_UPGRADE_AUTHORITIES: [Pubkey; 2] =
@@ -47,7 +47,7 @@ pub const HOOK_UPGRADE_AUTHORITIES: [Pubkey; 2] =
 /// `hook_timelock`: holds a program's upgrade authority behind a public delay
 /// (`docs/phase3a.md` §3).
 pub const HOOK_TIMELOCK_ID: Pubkey =
-    Pubkey::from_str_const("BBUzaamchPWZpKENmn7bopiuQWvRGm2Vg8TqLLgzgGGZ");
+    Pubkey::from_str_const("56VjJdfQwpDxZ39moBS1pVqaYMFy5sePxL2JEgzNAym6");
 /// `PDA(["timelock", program], HOOK_TIMELOCK_ID)`: a program's `Timelock`, which is also its
 /// upgrade authority.
 pub const TIMELOCK_SEED: &[u8] = b"timelock";

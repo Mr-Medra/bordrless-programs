@@ -24,7 +24,7 @@ use bordrless_hook::{
 use bordrless_token::client as token_client;
 use bordrless_token::state::Mint as TokenMint;
 
-declare_id!("8tjnVSreJGBRQFyDBf1SyyhBgLsdBxa2rHYh9sbxFyX7");
+declare_id!("4ZvQ5M27GKv3jmH7ksR6j1r6bnYeeqqckthn1sAHFG9F");
 
 #[cfg(not(feature = "no-entrypoint"))]
 solana_security_txt::security_txt! {
@@ -41,7 +41,7 @@ pub const TAX_SEED: &[u8] = b"tax";
 /// under the token program. The token program signs each hook's callbacks with a PDA of that
 /// hook's id, so a signer another hook received and passes on in a CPI here is refused.
 pub const TOKEN_HOOK_SIGNER: Pubkey =
-    Pubkey::from_str_const("8v2CVajpJMVKXLpZePXQpqvq2nyn7r1so7DxgXu4CkAw");
+    Pubkey::from_str_const("8Vu6wsUuakVQggHwLNhqNygnYKQiP747fD9kfNknL6GN");
 /// Index of the collector's holding in a callback's account list (prefix of 5, the tax config, the
 /// collector holding).
 pub const COLLECTOR_INDEX: u8 = TOKEN_PREFIX_ACCOUNTS as u8 + 1;
