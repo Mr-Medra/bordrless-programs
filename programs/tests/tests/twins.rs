@@ -16,7 +16,7 @@ use tiber_token::state::Mint;
 use tiber_twins::constants::*;
 use tiber_twins::error::TwinsError;
 use tiber_twins::state::Twin;
-use tiber_wall::WallError;
+use tiber_bridge::wall::WallError;
 use anchor_lang::solana_program::instruction::Instruction;
 
 const SOL: u64 = 1_000_000_000;
@@ -53,7 +53,7 @@ fn tithe_state(mint: &Pubkey) -> Pubkey {
 }
 
 fn wall_registry(mint: &Pubkey) -> Pubkey {
-    tiber_hook::hook_accounts_address(&tiber_wall::ID, mint).0
+    tiber_hook::hook_accounts_address(&tiber_bridge::ID, mint).0
 }
 
 impl Twins {
@@ -113,7 +113,7 @@ impl Twins {
                 twin: twin(&m),
                 twin_holding: token::holding_address(&m, &twin(&m)),
                 twins_authority: TWINS_AUTHORITY,
-                wall_program: tiber_wall::ID,
+                wall_program: tiber_bridge::ID,
                 wall: tiber_twins::wall_address(&m),
                 wall_registry: wall_registry(&m),
                 wall_token_signer: WALL_TOKEN_SIGNER,
@@ -156,7 +156,7 @@ impl Twins {
                 dex_treasury: self.w.env.treasury.pubkey(),
                 twins_authority: TWINS_AUTHORITY,
                 dex_hook_signer: DEX_HOOK_SIGNER,
-                wall_program: tiber_wall::ID,
+                wall_program: tiber_bridge::ID,
                 wall_token_signer: WALL_TOKEN_SIGNER,
                 wall: tiber_twins::wall_address(&mint),
                 token_program: tiber_token::ID,
@@ -280,7 +280,7 @@ impl Twins {
                 mint,
                 twin_holding: token::holding_address(&mint, &t),
                 destination: token::holding_address(&mint, to),
-                wall_program: tiber_wall::ID,
+                wall_program: tiber_bridge::ID,
                 wall_token_signer: WALL_TOKEN_SIGNER,
                 wall: tiber_twins::wall_address(&mint),
                 token_program: tiber_token::ID,
@@ -337,7 +337,7 @@ impl Twins {
                 dex_config: DEX_CONFIG,
                 twins_program: tiber_twins::ID,
                 dex_hook_signer: DEX_HOOK_SIGNER,
-                wall_program: tiber_wall::ID,
+                wall_program: tiber_bridge::ID,
                 wall_token_signer: WALL_TOKEN_SIGNER,
                 wall: tiber_twins::wall_address(&mint),
                 token_program: tiber_token::ID,
@@ -376,7 +376,7 @@ impl Twins {
                 lp_mint,
                 twin_lp: token::holding_address(&lp_mint, &t),
                 twins_authority: TWINS_AUTHORITY,
-                wall_program: tiber_wall::ID,
+                wall_program: tiber_bridge::ID,
                 wall_token_signer: WALL_TOKEN_SIGNER,
                 wall: tiber_twins::wall_address(&mint),
                 token_program: tiber_token::ID,
@@ -403,7 +403,7 @@ fn both_twins_are_created_with_the_planned_supply_and_curve() {
         assert_eq!(m.max_supply, SUPPLY);
         assert_eq!(m.mint_authority, None, "nobody can ever mint more");
         assert_eq!(m.freeze_authority, None, "nobody can freeze a holder");
-        assert_eq!(m.hook_program, Some(tiber_wall::ID));
+        assert_eq!(m.hook_program, Some(tiber_bridge::ID));
         let tw = t.twin(&mint);
         assert!(tw.curve_open);
         assert_eq!(tw.opened_at, 0);
@@ -488,8 +488,8 @@ fn no_wallet_may_hold_more_than_one_and_a_half_percent() {
         ok += 1;
         assert!(ok < 100);
     }
-    assert!(t.balance(&t.rom, &whale.pubkey()) <= tiber_wall::HOLD_CAP);
-    assert!(t.balance(&t.rom, &whale.pubkey()) > tiber_wall::HOLD_CAP * 9 / 10);
+    assert!(t.balance(&t.rom, &whale.pubkey()) <= tiber_bridge::wall::HOLD_CAP);
+    assert!(t.balance(&t.rom, &whale.pubkey()) > tiber_bridge::wall::HOLD_CAP * 9 / 10);
     // Nor by a transfer from another wallet.
     let friend = t.trader(10 * SOL);
     t.buy(&friend, t.rom, SOL / 20).ok();
@@ -608,7 +608,7 @@ fn the_treasury_follows_its_schedule() {
                 mint,
                 twin_holding: token::holding_address(&mint, &tw),
                 destination: token::holding_address(&mint, &stranger.pubkey()),
-                wall_program: tiber_wall::ID,
+                wall_program: tiber_bridge::ID,
                 wall_token_signer: WALL_TOKEN_SIGNER,
                 wall: tiber_twins::wall_address(&mint),
                 token_program: tiber_token::ID,

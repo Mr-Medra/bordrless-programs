@@ -19,13 +19,13 @@ pub const BUYER_SEED: &[u8] = b"buyer";
 
 /// The tithe program (`tiber_tithe`).
 pub const TITHE_ID: Pubkey = Pubkey::from_str_const("5WNWnM3JTDgDYkA4Mh7quKQXtkdiwF3d7bgc9RuX4KF");
-/// The wall (`tiber_wall`): the twins' token hook.
-pub const WALL_ID: Pubkey = tiber_wall::ID;
+/// The bridge, which carries the Wall: the twins' token hook.
+pub const WALL_ID: Pubkey = tiber_bridge::ID;
 /// The token program's signer of the wall's callbacks.
-pub const WALL_TOKEN_SIGNER: Pubkey = tiber_wall::TOKEN_HOOK_SIGNER;
+pub const WALL_TOKEN_SIGNER: Pubkey = tiber_bridge::wall::TOKEN_HOOK_SIGNER;
 /// This program's own authority, `["hook-authority"]`: it signs `create_pool` and `finalize_curve`
 /// on the exchange (proving the twins program opens its own curves) and the wall's `prepare`.
-pub const TWINS_AUTHORITY: Pubkey = tiber_wall::TWINS_AUTHORITY;
+pub const TWINS_AUTHORITY: Pubkey = tiber_bridge::wall::TWINS_AUTHORITY;
 /// Its bump.
 pub const TWINS_AUTHORITY_BUMP: u8 = 255;
 /// The exchange's signer of every pool callback to this program: `["hook-authority", tiber_twins]`
@@ -49,7 +49,7 @@ pub const BPF_LOADER_UPGRADEABLE_ID: Pubkey =
 // ------------------------------------------------------------------------------------ the tokens
 
 /// Decimals of each twin.
-pub const DECIMALS: u8 = tiber_wall::DECIMALS;
+pub const DECIMALS: u8 = tiber_bridge::wall::DECIMALS;
 /// One whole token in base units.
 pub const ONE: u64 = 1_000_000;
 /// Each twin's supply, all minted at creation: 1,000,000,000.

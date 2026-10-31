@@ -1,46 +1,36 @@
-//! `tiber_wall`: the Wall, the token hook of Romulus (ROM) and Remus (REM).
+//! The Wall: the token hook of Romulus (ROM) and Remus (REM), part of the bridge program so the
+//! twins need one program fewer on chain (the bridge is never running while a twin moves, so it
+//! can be the twins' token hook).
 //!
 //! In the lore the wall is the line no citizen crosses: no one may hold more than 1.5% of a city.
 //! On chain, every transfer of a twin runs `before_transfer` here, and the transfer fails when:
 //!
 //! - the destination's owner is not an ordinary wallet (an address off the ed25519 curve, which
 //!   is what every program-owned account and every other exchange's pool is), unless it is one of
-//!   the twin's own accounts named at creation (the twins program's account for the mint, which
-//!   holds the treasury, the graduation reserve and the locked LP; the twin's pool on the Tiber
-//!   exchange; and the tithe's buyer, which buys this twin with its sister's buy tax and burns it).
-//!   This keeps every trade of a twin on its own pool, where the taxes are taken; or
+//!   the twin's own accounts named at creation (the twins program's account for the mint, the
+//!   twin's pool, and the tithe's buyer of the twin). This keeps every trade of a twin on its own
+//!   pool, where the taxes are taken; or
 //! - the destination would hold more than [`HOLD_CAP`] (1.5% of the supply, fixed at 15,000,000
 //!   tokens), again unless it is one of those accounts.
 //!
-//! The rules are written once, by the twins program when it creates the mint (`prepare`, signed by
-//! the twins program's own authority), and nothing can change them afterwards: this program has
+//! The rules are written once, by the twins program when it creates the mint (`wall_prepare`,
+//! signed by the twins program's own authority), and nothing can change them afterwards: there is
 //! no instruction that edits a wall.
-
-#![allow(unexpected_cfgs)]
 
 use anchor_lang::prelude::*;
 use tiber_hook::{
     hook_accounts_address, token_flags, write_registry, AccountSource, ExtraAccount,
-    HookAccountList, HookReturn, Seed, TokenHookArgs, TokenOp, HOOK_AUTHORITY_SEED,
+    HookAccountList, HookReturn, Seed, TokenHookArgs, TokenOp,
 };
-
-declare_id!("2Rz5QMMrD3Heh2LeWZonvKcWtCtqHkbdCS1tfxV4ociH");
-
-#[cfg(not(feature = "no-entrypoint"))]
-solana_security_txt::security_txt! {
-    name: "Tiber wall",
-    project_url: "https://github.com/Mr-Medra/tiber-programs",
-    contacts: "link:https://github.com/Mr-Medra/tiber-programs/security/advisories/new",
-    policy: "https://github.com/Mr-Medra/tiber-programs/blob/main/SECURITY.md",
-    source_code: "https://github.com/Mr-Medra/tiber-programs"
-}
+#[cfg(test)]
+use tiber_hook::HOOK_AUTHORITY_SEED;
 
 /// `["wall", mint]`: a mint's rules.
 pub const WALL_SEED: &[u8] = b"wall";
-/// The token program's signer of every callback to this hook: `["hook-authority", tiber_wall]`
+/// The token program's signer of every callback to this hook: `["hook-authority", tiber_bridge]`
 /// under the token program (the unit tests check the derivation).
 pub const TOKEN_HOOK_SIGNER: Pubkey =
-    Pubkey::from_str_const("55oWRm1rrB9Ug4kA3KKaRLVjTtgCYxGCmKiZfX8FRhXx");
+    Pubkey::from_str_const("4PeArj6Z3uFjYmQ85LUPi9Rkcvy7ruoeJ9hgEbdEiZ3L");
 /// The twins program, the only program that may write a wall.
 pub const TWINS_ID: Pubkey = Pubkey::from_str_const("e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89");
 /// The twins program's own authority, `["hook-authority"]` under it: the signer of `prepare`.
@@ -56,50 +46,44 @@ pub const HOLD_CAP: u64 = 15_000_000 * 1_000_000;
 /// Most exempt owners a wall names.
 pub const MAX_EXEMPT: usize = 4;
 
-#[program]
-pub mod tiber_wall {
-    use super::*;
 
-    /// Writes the wall of `mint` (which need not exist yet: the twins program calls this just
-    /// before it creates the mint) and publishes the hook's extra-accounts registry. Only the twins
-    /// program's authority may sign. `exempt` are the owners the rules never apply to; unused
-    /// slots are the default key.
-    pub fn prepare(ctx: Context<Prepare>, exempt: [Pubkey; MAX_EXEMPT]) -> Result<()> {
-        let mint = ctx.accounts.mint.key();
-        let wall = &mut ctx.accounts.wall;
-        wall.bump = ctx.bumps.wall;
-        wall.mint = mint;
-        wall.hold_cap = HOLD_CAP;
-        wall.exempt = exempt;
-        let (expected, bump) = hook_accounts_address(&crate::ID, &mint);
-        require_keys_eq!(ctx.accounts.registry.key(), expected, WallError::WrongRegistry);
-        let list = HookAccountList::new(vec![ExtraAccount {
-            writable: false,
-            source: AccountSource::Pda {
-                program: crate::ID,
-                // `Seed::Account(1)`: the prefix's mint.
-                seeds: vec![Seed::Literal(WALL_SEED.to_vec()), Seed::Account(1)],
-            },
-        }]);
-        write_registry(
-            &ctx.accounts.payer.to_account_info(),
-            &ctx.accounts.registry.to_account_info(),
-            &ctx.accounts.system_program.to_account_info(),
-            &crate::ID,
-            &mint,
-            bump,
-            &list,
-        )
-    }
+/// `wall_prepare`: writes the wall of `mint` (which need not exist yet: the twins program calls
+/// this just before it creates the mint) and publishes the hook's extra-accounts registry.
+pub fn process_prepare(ctx: Context<Prepare>, exempt: [Pubkey; MAX_EXEMPT]) -> Result<()> {
+    let mint = ctx.accounts.mint.key();
+    let wall = &mut ctx.accounts.wall;
+    wall.bump = ctx.bumps.wall;
+    wall.mint = mint;
+    wall.hold_cap = HOLD_CAP;
+    wall.exempt = exempt;
+    let (expected, bump) = hook_accounts_address(&crate::ID, &mint);
+    require_keys_eq!(ctx.accounts.registry.key(), expected, WallError::WrongRegistry);
+    let list = HookAccountList::new(vec![ExtraAccount {
+        writable: false,
+        source: AccountSource::Pda {
+            program: crate::ID,
+            // `Seed::Account(1)`: the prefix's mint.
+            seeds: vec![Seed::Literal(WALL_SEED.to_vec()), Seed::Account(1)],
+        },
+    }]);
+    write_registry(
+        &ctx.accounts.payer.to_account_info(),
+        &ctx.accounts.registry.to_account_info(),
+        &ctx.accounts.system_program.to_account_info(),
+        &crate::ID,
+        &mint,
+        bump,
+        &list,
+    )
+}
 
-    /// The token program's callback before every transfer of a twin.
-    pub fn before_transfer(ctx: Context<BeforeTransfer>, args: TokenHookArgs) -> Result<HookReturn> {
-        let wall = &ctx.accounts.wall;
-        require!(args.op == TokenOp::Transfer, WallError::Unsupported);
-        require_keys_eq!(args.mint, wall.mint, WallError::WrongMint);
-        check(wall, &args)?;
-        Ok(HookReturn::default())
-    }
+/// `before_transfer`: the token program's callback before every transfer of a twin.
+pub fn process_before_transfer(ctx: Context<BeforeTransfer>, args: TokenHookArgs) -> Result<HookReturn> {
+    let wall = &ctx.accounts.wall;
+    require!(args.op == TokenOp::Transfer, WallError::Unsupported);
+    require_keys_eq!(args.mint, wall.mint, WallError::WrongMint);
+    check(wall, &args)?;
+    Ok(HookReturn::default())
 }
 
 /// The two rules, as a pure function of the wall and the token program's arguments.
@@ -164,7 +148,7 @@ pub struct BeforeTransfer<'info> {
     pub wall: Account<'info, Wall>,
 }
 
-#[error_code]
+#[error_code(offset = 7000)]
 pub enum WallError {
     #[msg("only the twins program may write a wall")]
     NotTwins,
@@ -182,7 +166,6 @@ pub enum WallError {
     OverTheWall,
 }
 
-pub const _HOOK_AUTHORITY_SEED: &[u8] = HOOK_AUTHORITY_SEED;
 
 #[cfg(test)]
 mod tests {

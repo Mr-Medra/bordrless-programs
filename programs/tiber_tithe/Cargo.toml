@@ -26,7 +26,7 @@ tiber-core = { path = "../../crates/tiber-core" }
 tiber-hook = { path = "../../crates/tiber-hook" }
 tiber-token = { path = "../tiber_token", features = ["no-entrypoint"] }
 tiber-swap = { path = "../tiber_swap", features = ["no-entrypoint"] }
-tiber-wall = { path = "../tiber_wall", features = ["no-entrypoint"] }
+tiber-bridge = { path = "../tiber_bridge", features = ["no-entrypoint"] }
 tiber-twins = { path = "../tiber_twins", features = ["no-entrypoint"] }
 
 [lints]

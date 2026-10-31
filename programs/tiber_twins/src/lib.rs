@@ -247,7 +247,7 @@ pub fn twin_address(mint: &Pubkey) -> (Pubkey, u8) {
 
 /// The wall's account for `mint`.
 pub fn wall_address(mint: &Pubkey) -> Pubkey {
-    Pubkey::find_program_address(&[tiber_wall::WALL_SEED, mint.as_ref()], &WALL_ID).0
+    Pubkey::find_program_address(&[tiber_bridge::wall::WALL_SEED, mint.as_ref()], &WALL_ID).0
 }
 
 /// The wall as a twin mint's token hook.
@@ -368,7 +368,7 @@ fn process_create_twin<'info>(
             AccountMeta::new(ctx.accounts.wall_registry.key(), false),
             AccountMeta::new_readonly(anchor_lang::system_program::ID, false),
         ],
-        data: tiber_wall::instruction::Prepare {
+        data: tiber_bridge::instruction::WallPrepare {
             exempt: [twin_key, pool, buyer, Pubkey::default()],
         }
         .data(),
@@ -390,7 +390,7 @@ fn process_create_twin<'info>(
             mint_authority: Some(twin_key),
             freeze_authority: None,
             hook_program: Some(WALL_ID),
-            hook_flags: tiber_wall::FLAGS,
+            hook_flags: tiber_bridge::wall::FLAGS,
             hook_authority: None,
             metadata_authority: Some(admin),
         },
@@ -1029,7 +1029,7 @@ mod address_tests {
         assert_eq!(DEX_CONFIG, tiber_swap::client::config_address());
         assert_eq!(DEX_EVENT_AUTHORITY, tiber_swap::EVENT_AUTHORITY_AND_BUMP.0);
         assert_eq!(TOKEN_EVENT_AUTHORITY, tiber_token::EVENT_AUTHORITY_AND_BUMP.0);
-        assert_eq!(tiber_wall::TWINS_ID, crate::ID);
+        assert_eq!(tiber_bridge::wall::TWINS_ID, crate::ID);
         assert_eq!(tiber_swap::constants::LAUNCHPAD_ID, crate::ID);
     }
 }

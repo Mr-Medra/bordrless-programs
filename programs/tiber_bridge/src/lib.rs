@@ -1,5 +1,5 @@
 //! `tiber_bridge`: SPL Token, Token-2022 and native SOL in; Tiber Token Standard out, one
-//! for one, and back.
+//! for one, and back. It also carries the Wall, the twins' token hook ([`wall`]).
 //!
 //! A wrapper (`["wrapper", underlying]`) holds the underlying in a vault (the wrapper PDA's
 //! associated token account, or the `["sol-vault"]` PDA for SOL) and is the mint authority of the
@@ -18,8 +18,10 @@ pub mod events;
 pub mod instructions;
 pub mod spl;
 pub mod state;
+pub mod wall;
 
 pub use instructions::*;
+pub use wall::*;
 
 declare_id!("4WXBYj7efT8SYhRxacekrp2zgmqoPnyGQifE6obRGLeG");
 
@@ -69,5 +71,18 @@ pub mod tiber_bridge {
     /// trade just delivered, leaving what was held before it.
     pub fn unwrap_sol_above(ctx: Context<WrapSol>, keep: u64) -> Result<()> {
         wrap::process_unwrap_sol(ctx, keep, true)
+    }
+
+    /// The Wall: writes a twin's rules (only the twins program may, once per mint).
+    pub fn wall_prepare(ctx: Context<Prepare>, exempt: [Pubkey; wall::MAX_EXEMPT]) -> Result<()> {
+        wall::process_prepare(ctx, exempt)
+    }
+
+    /// The Wall: the token program's callback before every transfer of a twin.
+    pub fn before_transfer(
+        ctx: Context<BeforeTransfer>,
+        args: tiber_hook::TokenHookArgs,
+    ) -> Result<tiber_hook::HookReturn> {
+        wall::process_before_transfer(ctx, args)
     }
 }

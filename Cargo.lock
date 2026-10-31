@@ -4045,6 +4045,7 @@ version = "0.1.0"
 dependencies = [
  "anchor-lang",
  "solana-security-txt",
+ "tiber-hook",
  "tiber-token",
 ]
 
@@ -4084,7 +4085,6 @@ dependencies = [
  "tiber-tithe",
  "tiber-token",
  "tiber-twins",
- "tiber-wall",
 ]
 
 [[package]]
@@ -4105,12 +4105,12 @@ version = "0.1.0"
 dependencies = [
  "anchor-lang",
  "solana-security-txt",
+ "tiber-bridge",
  "tiber-core",
  "tiber-hook",
  "tiber-swap",
  "tiber-token",
  "tiber-twins",
- "tiber-wall",
 ]
 
 [[package]]
@@ -4128,20 +4128,10 @@ version = "0.1.0"
 dependencies = [
  "anchor-lang",
  "solana-security-txt",
+ "tiber-bridge",
  "tiber-core",
  "tiber-hook",
  "tiber-swap",
- "tiber-token",
- "tiber-wall",
-]
-
-[[package]]
-name = "tiber-wall"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "solana-security-txt",
- "tiber-hook",
  "tiber-token",
 ]
 

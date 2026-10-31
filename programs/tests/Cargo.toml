@@ -16,7 +16,6 @@ tiber-swap = { path = "../tiber_swap", features = ["no-entrypoint"] }
 tiber-bridge = { path = "../tiber_bridge", features = ["no-entrypoint"] }
 tax-hook = { path = "../tax_hook", features = ["no-entrypoint"] }
 hook-tester = { path = "../hook_tester", features = ["no-entrypoint"] }
-tiber-wall = { path = "../tiber_wall", features = ["no-entrypoint"] }
 tiber-twins = { path = "../tiber_twins", features = ["no-entrypoint"] }
 tiber-tithe = { path = "../tiber_tithe", features = ["no-entrypoint"] }
 # sha256 of a program's code (the executable hash), as solana-verify computes it.

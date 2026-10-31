@@ -15,13 +15,12 @@ pub use events::*;
 use std::path::PathBuf;
 
 /// The programs, by crate library name (the stem of each `.so`). `hook_tester` is test-only.
-pub const PROGRAMS: [&str; 8] = [
+pub const PROGRAMS: [&str; 7] = [
     "tiber_token",
     "tiber_swap",
     "tiber_bridge",
     "tax_hook",
     "hook_tester",
-    "tiber_wall",
     "tiber_twins",
     "tiber_tithe",
 ];

@@ -19,7 +19,6 @@ members = [
   "programs/tiber_bridge",
   "programs/tax_hook",
   "programs/hook_tester",
-  "programs/tiber_wall",
   "programs/tiber_twins",
   "programs/tiber_tithe",
 ]
@@ -27,7 +26,6 @@ members = [
 # Romulus and Remus program IDs (generated 2026-10-31; keypairs in keys/devnet, git-ignored).
 [programs.localnet]
 tiber_tithe = "5WNWnM3JTDgDYkA4Mh7quKQXtkdiwF3d7bgc9RuX4KF"
-tiber_wall = "2Rz5QMMrD3Heh2LeWZonvKcWtCtqHkbdCS1tfxV4ociH"
 tiber_twins = "e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89"
 tiber_token = "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
 tiber_swap = "7nUWnHYtqgLv2sevNxxVBVqZSKd5VZqLBTWbf7un3kSM"
@@ -37,7 +35,6 @@ hook_tester = "GYB8VyYDXx4e5mdxtiUF6L54yi4kvKCpjDUdjFsAJqgk"
 
 [programs.devnet]
 tiber_tithe = "5WNWnM3JTDgDYkA4Mh7quKQXtkdiwF3d7bgc9RuX4KF"
-tiber_wall = "2Rz5QMMrD3Heh2LeWZonvKcWtCtqHkbdCS1tfxV4ociH"
 tiber_twins = "e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89"
 tiber_token = "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
 tiber_swap = "7nUWnHYtqgLv2sevNxxVBVqZSKd5VZqLBTWbf7un3kSM"

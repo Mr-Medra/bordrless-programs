@@ -50,7 +50,7 @@ mod tests {
         assert_eq!(p.graduation_quote, GRADUATION_QUOTE);
         assert_eq!(CURVE_TOKENS + RESERVE_TOKENS + TREASURY_TOKENS, SUPPLY);
         assert_eq!(MAX_BUY, SUPPLY / 100);
-        assert_eq!(tiber_wall::HOLD_CAP, SUPPLY * 15 / 1_000);
+        assert_eq!(tiber_bridge::wall::HOLD_CAP, SUPPLY * 15 / 1_000);
         assert_eq!(TREASURY_DAILY_LIMIT, SUPPLY / 1_000);
         assert_eq!(TREASURY_LOCKED_TOKENS * 4, TREASURY_TOKENS * 3);
     }
