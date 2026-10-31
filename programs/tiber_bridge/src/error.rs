@@ -33,4 +33,19 @@ pub enum BridgeError {
     NotNativeWrapper,
     #[msg("math overflow")]
     MathOverflow,
+    // The Wall (`crate::wall`).
+    #[msg("only the twins program may write a wall")]
+    NotTwins,
+    #[msg("the registry is not this hook's for the mint")]
+    WrongRegistry,
+    #[msg("the hook signer is not the token program's signer for this hook")]
+    BadHookSigner,
+    #[msg("the arguments are for another mint")]
+    WrongMint,
+    #[msg("only transfers run this hook")]
+    Unsupported,
+    #[msg("only ordinary wallets may hold a twin")]
+    WalletsOnly,
+    #[msg("no wallet may hold more than 1.5% of a twin")]
+    OverTheWall,
 }
