@@ -10,7 +10,7 @@ The on-chain programs behind Romulus (ROM) and Remus (REM), the Twins of the Tib
 | `tax_hook` | `4ZvQ5M27GKv3jmH7ksR6j1r6bnYeeqqckthn1sAHFG9F` | An example token hook, kept for the tests |
 | `tiber_twins` | `e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89` | Creates ROM and REM, runs their bonding curves (buy tax, sell burn, anti-sniper fee, 1% buy limit), graduates them with locked liquidity, releases the treasury on its schedule |
 | `tiber_wall` | `2Rz5QMMrD3Heh2LeWZonvKcWtCtqHkbdCS1tfxV4ociH` | The twins' token hook: the 1.5% holding cap, and only ordinary wallets may hold a twin |
-| `tiber_tithe` | `5WNWnM3JTDgDYkA4Mh7quKQXtkdiwF3d7bgc9RuX4KF` | Reserved: buys and burns each sister token (to be written) |
+| `tiber_tithe` | `5WNWnM3JTDgDYkA4Mh7quKQXtkdiwF3d7bgc9RuX4KF` | Spends each brother fund buying the sister token in small steps anyone can trigger, and burns what it buys |
 
 `hook_tester` is a test-only program and is never deployed.
 

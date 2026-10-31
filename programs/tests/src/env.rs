@@ -221,6 +221,7 @@ impl Env {
             ("hook_tester", hook_tester::ID),
             ("tiber_wall", tiber_wall::ID),
             ("tiber_twins", tiber_twins::ID),
+            ("tiber_tithe", tiber_tithe::ID),
         ];
         for (name, id) in programs {
             svm.add_program(id, bytes_of(name))

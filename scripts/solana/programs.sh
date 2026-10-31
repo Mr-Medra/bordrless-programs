@@ -26,7 +26,7 @@ set -euo pipefail
 TOOLS_VERSION="v1.57"
 SBF_ARCH="v3"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)"
-PROGRAMS=(tiber_token tiber_swap tiber_bridge tax_hook hook_tester tiber_wall tiber_twins)
+PROGRAMS=(tiber_token tiber_swap tiber_bridge tax_hook hook_tester tiber_wall tiber_twins tiber_tithe)
 TEST_ONLY=(hook_tester)
 DEPLOY_DIR="$ROOT/target/deploy"
 export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$HOME/.cache/tiber/target}"

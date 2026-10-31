@@ -48,6 +48,10 @@ fn ix(accounts: impl ToAccountMetas, data: impl InstructionData) -> Instruction 
     }
 }
 
+fn tithe_state(mint: &Pubkey) -> Pubkey {
+    Pubkey::find_program_address(&[tiber_tithe::STATE_SEED, mint.as_ref()], &tiber_tithe::ID).0
+}
+
 fn wall_registry(mint: &Pubkey) -> Pubkey {
     tiber_hook::hook_accounts_address(&tiber_wall::ID, mint).0
 }
@@ -288,6 +292,74 @@ impl Twins {
         self.w.env.send(&[ix], &[&admin])
     }
 
+
+    fn init_buyers(&mut self) {
+        for mint in [self.rom, self.rem] {
+            let buyer = tiber_twins::buyer_address(&mint);
+            let ix = Instruction {
+                program_id: tiber_tithe::ID,
+                accounts: tiber_tithe::accounts::InitBuyer {
+                    payer: self.w.env.payer.pubkey(),
+                    twin: twin(&mint),
+                    mint,
+                    buyer,
+                    buyer_holding: token::holding_address(&mint, &buyer),
+                    state: tithe_state(&mint),
+                    token_program: tiber_token::ID,
+                    token_event_authority: TOKEN_EVENT_AUTHORITY,
+                    system_program: anchor_lang::system_program::ID,
+                }
+                .to_account_metas(None),
+                data: tiber_tithe::instruction::InitBuyer {}.data(),
+            };
+            self.w.env.send(&[ix], &[]).ok();
+        }
+    }
+
+    fn tithe_ix(&self, mint: Pubkey, fund: Option<Pubkey>) -> Instruction {
+        let buyer = tiber_twins::buyer_address(&mint);
+        let pool = tiber_twins::pool_address(&mint);
+        Instruction {
+            program_id: tiber_tithe::ID,
+            accounts: tiber_tithe::accounts::Tithe {
+                cranker: self.w.env.payer.pubkey(),
+                twin: twin(&mint),
+                state: tithe_state(&mint),
+                mint,
+                buyer,
+                fund: fund.unwrap_or(token::holding_address(&BRIDGED_SOL_MINT, &buyer)),
+                buyer_holding: token::holding_address(&mint, &buyer),
+                quote_mint: BRIDGED_SOL_MINT,
+                pool,
+                base_vault: swap::vault_address(&pool, &mint),
+                quote_vault: swap::vault_address(&pool, &BRIDGED_SOL_MINT),
+                sister_fund: self.twin(&mint).sister_fund,
+                dex_config: DEX_CONFIG,
+                twins_program: tiber_twins::ID,
+                dex_hook_signer: DEX_HOOK_SIGNER,
+                wall_program: tiber_wall::ID,
+                wall_token_signer: WALL_TOKEN_SIGNER,
+                wall: tiber_twins::wall_address(&mint),
+                token_program: tiber_token::ID,
+                token_event_authority: TOKEN_EVENT_AUTHORITY,
+                swap_program: tiber_swap::ID,
+                dex_event_authority: DEX_EVENT_AUTHORITY,
+            }
+            .to_account_metas(None),
+            data: tiber_tithe::instruction::Tithe {}.data(),
+        }
+    }
+
+    fn tithe(&mut self, mint: Pubkey) -> Tx {
+        let ix = self.tithe_ix(mint, None);
+        self.w.env.send(&[ix], &[])
+    }
+
+    /// The SOL waiting to buy and burn `mint` (paid by its sister's buys).
+    fn fund_for(&self, mint: &Pubkey) -> u64 {
+        self.balance(&BRIDGED_SOL_MINT, &tiber_twins::buyer_address(mint))
+    }
+
     fn graduate(&mut self, mint: Pubkey) -> Tx {
         let t = twin(&mint);
         let pool = tiber_twins::pool_address(&mint);
@@ -500,6 +572,13 @@ fn the_curve_sells_out_and_graduates_with_locked_liquidity() {
     t.buy(&late, mint, SOL / 10).ok();
     assert_eq!(t.fund_of(&mint) - before, SOL / 10 * 2 / 100);
     t.graduate(mint).expect_fail();
+    // The tithe buys and burns on the graduated pool too (paid by REM buys).
+    t.init_buyers();
+    t.buy(&late, t.rem, SOL / 10).ok();
+    let supply = t.w.env.read::<Mint>(&mint).supply;
+    t.tithe(mint).ok();
+    assert!(t.w.env.read::<Mint>(&mint).supply < supply);
+    assert_eq!(t.fund_for(&mint), 0);
 }
 
 #[test]
@@ -585,4 +664,76 @@ fn a_trade_fits_well_inside_the_compute_budget() {
     // Solana allows 1,400,000 per transaction; the default without asking is 200,000 per
     // instruction. A wallet's swap should fit the default comfortably.
     assert!(buy < 200_000 && sell < 200_000, "buy {buy}, sell {sell}");
+}
+
+// ================================================================================== the tithe
+
+#[test]
+fn the_tithe_buys_the_sister_and_burns_it_paying_no_tax() {
+    let mut t = Twins::trading();
+    t.init_buyers();
+    let trader = t.trader(10 * SOL);
+    // ROM buys pay into the fund that buys REM.
+    t.buy(&trader, t.rom, SOL / 10).ok();
+    let fund = t.fund_for(&t.rem);
+    assert_eq!(fund, SOL / 10 * 2 / 100);
+    let rem_supply = t.w.env.read::<Mint>(&t.rem).supply;
+    let rom_fund = t.fund_for(&t.rom);
+    t.tithe(t.rem).ok();
+    // The fund was spent whole (it is under the cap), and every REM bought burned.
+    assert_eq!(t.fund_for(&t.rem), 0);
+    let state: tiber_tithe::TitheState = t.w.env.read(&tithe_state(&t.rem));
+    assert_eq!(state.spent, fund);
+    assert!(state.burned > 0);
+    assert_eq!(t.w.env.read::<Mint>(&t.rem).supply, rem_supply - state.burned);
+    assert_eq!(
+        t.balance(&t.rem, &tiber_twins::buyer_address(&t.rem)),
+        0,
+        "nothing bought is kept"
+    );
+    // The tithe's own buy paid no tax into ROM's fund.
+    assert_eq!(t.fund_for(&t.rom), rom_fund);
+    assert_eq!(t.twin(&t.rem).buy_tax_paid, 0);
+}
+
+#[test]
+fn the_tithe_runs_once_per_slot_and_spends_at_most_half_a_percent() {
+    let mut t = Twins::new();
+    t.open_trading().ok();
+    t.init_buyers();
+    // A sniper's buy at the opening second fills REM's fund with 80% of its SOL.
+    let sniper = t.trader(10 * SOL);
+    t.buy(&sniper, t.rom, SOL / 10).ok();
+    let fund = t.fund_for(&t.rem);
+    assert_eq!(fund, SOL / 10 * 80 / 100);
+    t.tithe(t.rem).ok();
+    let side = VIRTUAL_QUOTE; // REM's curve had no trades yet.
+    let spent = fund - t.fund_for(&t.rem);
+    assert_eq!(spent, side / 200);
+    // Again in the same slot: refused, so one transaction cannot chain tithes.
+    let again = t.tithe_ix(t.rem, None);
+    t.w.env
+        .send(&[again], &[])
+        .expect_code(code(tiber_tithe::TitheError::OncePerSlot));
+    t.w.env.warp(1);
+    t.tithe(t.rem).ok();
+    assert!(t.fund_for(&t.rem) < fund - spent);
+}
+
+#[test]
+fn the_tithe_cannot_be_pointed_at_another_fund() {
+    let mut t = Twins::trading();
+    t.init_buyers();
+    let trader = t.trader(10 * SOL);
+    t.buy(&trader, t.rom, SOL / 10).ok();
+    // Spending someone's own SOL holding as the "fund" is refused.
+    let ix = t.tithe_ix(t.rem, Some(token::holding_address(&BRIDGED_SOL_MINT, &trader.pubkey())));
+    t.w.env
+        .send(&[ix], &[])
+        .expect_code(code(tiber_tithe::TitheError::WrongAccount));
+    // With nothing in the fund there is nothing to do.
+    t.tithe(t.rem).ok();
+    t.w.env.warp(1);
+    t.tithe(t.rem)
+        .expect_code(code(tiber_tithe::TitheError::NothingToSpend));
 }

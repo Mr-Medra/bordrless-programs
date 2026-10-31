@@ -18,6 +18,7 @@ tax-hook = { path = "../tax_hook", features = ["no-entrypoint"] }
 hook-tester = { path = "../hook_tester", features = ["no-entrypoint"] }
 tiber-wall = { path = "../tiber_wall", features = ["no-entrypoint"] }
 tiber-twins = { path = "../tiber_twins", features = ["no-entrypoint"] }
+tiber-tithe = { path = "../tiber_tithe", features = ["no-entrypoint"] }
 # sha256 of a program's code (the executable hash), as solana-verify computes it.
 solana-sha256-hasher = { version = "=3.1.0", features = ["sha2"] }
 agave-reserved-account-keys = "=4.3.0"
