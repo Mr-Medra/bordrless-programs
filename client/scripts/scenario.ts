@@ -77,7 +77,7 @@ const opened = (await t.twin(ROM)).openedAt.toNumber();
 if (opened === 0) throw new Error("trading is not open: run setup.ts with --open first");
 
 // 1. The anti-sniper fee, if we are still inside the first 30 seconds.
-const sniper = await wallet(2n * SOL, SOL);
+const sniper = await wallet(SOL / 2n, SOL / 4n);
 const before = await fundFor(REM);
 await buy(sniper, ROM, REM, SOL / 20n);
 const paid = (await fundFor(REM)) - before;
@@ -90,7 +90,7 @@ else console.log(`skip  anti-sniper check (trading opened ${age}s ago; the fee i
 while (Math.floor(Date.now() / 1000) - opened < 31) await sleep(1000);
 
 // 2. The 2% buy tax goes to the sister's buyer.
-const alice = await wallet(5n * SOL, 3n * SOL);
+const alice = await wallet(SOL, (SOL * 6n) / 10n);
 let f0 = await fundFor(REM);
 await buy(alice, ROM, REM, SOL / 10n);
 check("a ROM buy pays exactly 2% toward REM", (await fundFor(REM)) - f0 === (SOL / 10n) * 2n / 100n);
@@ -99,11 +99,11 @@ await buy(alice, REM, ROM, SOL / 10n);
 check("a REM buy pays exactly 2% toward ROM", (await fundFor(ROM)) - f0 === (SOL / 10n) * 2n / 100n);
 
 // 3. The 1% buy limit.
-let [ok, why] = await fails([await t.swapIx(alice.publicKey, ROM, REM, 1, SOL)], [], alice, "BuyTooLarge");
+let [ok, why] = await fails([await t.swapIx(alice.publicKey, ROM, REM, 1, (SOL * 35n) / 100n)], [], alice, "BuyTooLarge");
 check("one buy cannot take more than 1% of the supply", ok, why);
 
 // 4. The 1.5% holding cap.
-const whale = await wallet(10n * SOL, 8n * SOL);
+const whale = await wallet((SOL * 15n) / 10n, (SOL * 12n) / 10n);
 let held = 0n;
 for (let i = 0; i < 40; i++) {
   try {
@@ -160,7 +160,7 @@ if (released === 0n) {
 }
 [ok, why] = await fails([await t.releaseTreasury(me, ROM, me, 1n)], [], admin, "DailyLimit");
 check("and no more on the same day", ok, why);
-const stranger = await wallet(SOL / 10n, 0n);
+const stranger = await wallet(SOL / 20n, 0n);
 [ok, why] = await fails([await t.releaseTreasury(stranger.publicKey, ROM, stranger.publicKey, 1n)], [], stranger, "NotAdmin");
 check("and only the admin can release it", ok, why);
 
