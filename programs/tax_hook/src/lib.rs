@@ -29,10 +29,10 @@ declare_id!("4ZvQ5M27GKv3jmH7ksR6j1r6bnYeeqqckthn1sAHFG9F");
 #[cfg(not(feature = "no-entrypoint"))]
 solana_security_txt::security_txt! {
     name: "Tiber example tax hook",
-    project_url: "https://github.com/Mr-Medra/tiber-programs",
-    contacts: "link:https://github.com/Mr-Medra/tiber-programs/security/advisories/new",
-    policy: "https://github.com/Mr-Medra/tiber-programs/blob/main/SECURITY.md",
-    source_code: "https://github.com/Mr-Medra/tiber-programs"
+    project_url: "https://github.com/Mr-Medra/tiber",
+    contacts: "link:https://github.com/Mr-Medra/tiber/security/advisories/new",
+    policy: "https://github.com/Mr-Medra/tiber/blob/main/SECURITY.md",
+    source_code: "https://github.com/Mr-Medra/tiber"
 }
 
 /// `["tax", mint]`.

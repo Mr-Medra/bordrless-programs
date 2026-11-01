@@ -125,7 +125,7 @@ export default function App() {
         <p className="addresses">
           <a href={explorer(ROM.toBase58())} target="_blank" rel="noreferrer">ROM on the explorer</a>
           <a href={explorer(REM.toBase58())} target="_blank" rel="noreferrer">REM on the explorer</a>
-          <a href="https://github.com/Mr-Medra/bordrless-programs/tree/romulus-remus" target="_blank" rel="noreferrer">Source code</a>
+          <a href="https://github.com/Mr-Medra/tiber" target="_blank" rel="noreferrer">Source code</a>
         </p>
       </footer>
     </>

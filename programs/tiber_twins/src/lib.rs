@@ -52,10 +52,10 @@ declare_id!("e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89");
 #[cfg(not(feature = "no-entrypoint"))]
 solana_security_txt::security_txt! {
     name: "Tiber twins",
-    project_url: "https://github.com/Mr-Medra/tiber-programs",
-    contacts: "link:https://github.com/Mr-Medra/tiber-programs/security/advisories/new",
-    policy: "https://github.com/Mr-Medra/tiber-programs/blob/main/SECURITY.md",
-    source_code: "https://github.com/Mr-Medra/tiber-programs"
+    project_url: "https://github.com/Mr-Medra/tiber",
+    contacts: "link:https://github.com/Mr-Medra/tiber/security/advisories/new",
+    policy: "https://github.com/Mr-Medra/tiber/blob/main/SECURITY.md",
+    source_code: "https://github.com/Mr-Medra/tiber"
 }
 
 /// Arguments of `create_twin`: the token's metadata.
