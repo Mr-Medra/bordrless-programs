@@ -77,7 +77,7 @@ const opened = (await t.twin(ROM)).openedAt.toNumber();
 if (opened === 0) throw new Error("trading is not open: run setup.ts with --open first");
 
 // 1. The anti-sniper fee, if we are still inside the first 30 seconds.
-const sniper = await wallet(SOL / 2n, SOL / 4n);
+const sniper = await wallet((SOL * 3n) / 10n, SOL / 10n);
 const before = await fundFor(REM);
 await buy(sniper, ROM, REM, SOL / 20n);
 const paid = (await fundFor(REM)) - before;
@@ -90,7 +90,7 @@ else console.log(`skip  anti-sniper check (trading opened ${age}s ago; the fee i
 while (Math.floor(Date.now() / 1000) - opened < 31) await sleep(1000);
 
 // 2. The 2% buy tax goes to the sister's buyer.
-const alice = await wallet(SOL, (SOL * 6n) / 10n);
+const alice = await wallet((SOL * 8n) / 10n, (SOL * 6n) / 10n);
 let f0 = await fundFor(REM);
 await buy(alice, ROM, REM, SOL / 10n);
 check("a ROM buy pays exactly 2% toward REM", (await fundFor(REM)) - f0 === (SOL / 10n) * 2n / 100n);
@@ -103,7 +103,7 @@ let [ok, why] = await fails([await t.swapIx(alice.publicKey, ROM, REM, 1, (SOL *
 check("one buy cannot take more than 1% of the supply", ok, why);
 
 // 4. The 1.5% holding cap.
-const whale = await wallet((SOL * 15n) / 10n, (SOL * 12n) / 10n);
+const whale = await wallet((SOL * 8n) / 10n, (SOL * 6n) / 10n);
 let held = 0n;
 for (let i = 0; i < 40; i++) {
   try {
